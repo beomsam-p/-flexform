@@ -2,12 +2,6 @@ import styled from "styled-components";
 import { AppstoreOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 
-const SurveyResultSnbArea = styled.div`
-  flex-grow: 0;
-  display: flex;
-  flex-direction: column;
-`;
-
 const SurveyResultMenu = styled(Menu)`
   width: 100%;
   &.ant-menu-light.ant-menu-inline {
@@ -36,15 +30,13 @@ const SnbSurveyResult = () => {
     console.log("click ", e);
   };
   return (
-    <SurveyResultSnbArea>
-      <SurveyResultMenu
-        onClick={onClick}
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
-        mode="inline"
-        items={items}
-      />
-    </SurveyResultSnbArea>
+    <SurveyResultMenu
+      onClick={onClick}
+      defaultSelectedKeys={["1"]}
+      defaultOpenKeys={["sub1"]}
+      mode="inline"
+      items={items}
+    />
   );
 };
 

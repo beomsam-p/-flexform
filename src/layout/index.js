@@ -1,19 +1,17 @@
 import React from "react";
 import Headers from "layout/Header";
-import Snb from "components/snb";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 1fr auto;
 `;
 
 const Content = styled.div`
-  flex-grow: 1;
-  display: flex;
-  align-items: stretch;
+  width: 100%;
+  background-color: beige;
 `;
 
 const Layout = () => {
@@ -21,7 +19,6 @@ const Layout = () => {
     <Container>
       <Headers />
       <Content>
-        <Snb />
         <Outlet />
       </Content>
     </Container>

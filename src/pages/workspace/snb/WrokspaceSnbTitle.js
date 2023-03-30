@@ -6,7 +6,7 @@ const TitleBtnGroup = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const TitleBtn = styled(Tooltip)`
+const TitleBtnTooltip = styled(Tooltip)`
   margin-left: 8px;
 `;
 const Title = styled.div`
@@ -25,12 +25,12 @@ const SnbWrokspaceTitle = () => {
     <Title>
       <div>Workspace</div>
       <TitleBtnGroup>
-        <TitleBtn title="Add Workspace">
+        <TitleBtnTooltip title="Add Workspace">
           <Button shape="circle" size="small" icon={<PlusOutlined />} />
-        </TitleBtn>
-        <TitleBtn title="Sheach Workspace">
+        </TitleBtnTooltip>
+        <TitleBtnTooltip title="Sheach Workspace">
           <Button shape="circle" size="small" icon={<SearchOutlined />} />
-        </TitleBtn>
+        </TitleBtnTooltip>
       </TitleBtnGroup>
     </Title>
   );
