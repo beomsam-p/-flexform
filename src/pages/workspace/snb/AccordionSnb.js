@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { AppstoreOutlined } from "@ant-design/icons";
 import { Menu } from "antd";
 
-const SurveyResultMenu = styled(Menu)`
+const AccordionMenu = styled(Menu)`
   width: 100%;
   &.ant-menu-light.ant-menu-inline {
     border-inline-end: none;
   }
 `;
 
-const SnbSurveyResult = () => {
+const AccordionSnb = () => {
   const getItem = (label, key, icon, children, type) => {
     return { key, icon, children, label, type };
   };
@@ -30,7 +30,7 @@ const SnbSurveyResult = () => {
     console.log("click ", e);
   };
   return (
-    <SurveyResultMenu
+    <AccordionMenu
       onClick={onClick}
       defaultSelectedKeys={["1"]}
       defaultOpenKeys={["sub1"]}
@@ -40,4 +40,4 @@ const SnbSurveyResult = () => {
   );
 };
 
-export default SnbSurveyResult;
+export default AccordionSnb;

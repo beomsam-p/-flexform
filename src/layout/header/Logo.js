@@ -1,20 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import logo from "assets/logo.png";
 
 const Container = styled.div`
   height: 54px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 `;
-
-const Header = () => {
+const LogoImg = styled.img`
+  margin-left: 20px;
+  height: 23px;
+`;
+const Logo = () => {
   return (
     <Container>
-      <div>logo</div>
-      <div>my info</div>
+      <LogoImg src={logo} alt="logo" />
     </Container>
   );
 };
 
-export default Header;
+export default Logo;

@@ -1,5 +1,5 @@
 import React from "react";
-import Headers from "layout/Header";
+import Header from "layout/header";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -11,13 +11,12 @@ const Container = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  background-color: beige;
 `;
 
 const Layout = () => {
   return (
     <Container>
-      <Headers />
+      <Header />
       <Content>
         <Outlet />
       </Content>

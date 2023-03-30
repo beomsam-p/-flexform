@@ -4,16 +4,25 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
-  background-color: beige;
   display: grid;
   grid-template-columns: auto 1fr;
+`;
+
+const WorkspaceContent = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: center;
 `;
 
 const Workspace = () => {
   return (
     <Container>
       <WorkspaceSnb />
-      <div>workspace</div>
+      <WorkspaceContent>
+        <h1>Workspace1</h1>
+      </WorkspaceContent>
     </Container>
   );
 };

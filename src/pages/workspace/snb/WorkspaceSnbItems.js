@@ -1,49 +1,56 @@
 import styled from "styled-components";
+import { Menu } from "antd";
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
   border-bottom: 1px solid #f5f5f5;
   overflow-y: auto;
   background-color: white;
-  padding: 0 5px 0 5px;
 `;
 
-const WorkspaceItem = styled.div`
-  &:before {
-    content: "${({ textContent }) => textContent}";
-  }
-  padding: 11px 25px;
-  font-size: 15px;
-  color: rgba(0, 0, 0, 0.88);
-  border-radius: 8px;
-  :hover {
-    background-color: #f5f5f5;
+const WorkspaceItem = styled(Menu)`
+  width: 100%;
+  &.ant-menu .ant-menu-item-group-title {
+    height: 0;
+    padding: 0;
+    margin: 0;
   }
 `;
 
 const WorkspaceSnbItems = () => {
+  const getItem = (label, key, icon, children, type) => {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    };
+  };
+  const items = [
+    getItem(
+      null,
+      "1",
+      null,
+      [
+        getItem("Workspace1", "sub1"),
+        getItem("Workspace2", "sub2"),
+        getItem("Workspace3", "sub3"),
+        getItem("Workspace4", "sub4"),
+        getItem("Workspace5", "sub5"),
+        getItem("Workspace6", "sub6"),
+      ],
+      "group"
+    ),
+  ];
   return (
     <Container>
-      <WorkspaceItem textContent={"Workspace1"} />
-      <WorkspaceItem textContent={"Workspace2"} />
-      <WorkspaceItem textContent={"Workspace3"} />
-      <WorkspaceItem textContent={"Workspace4"} />
-      <WorkspaceItem textContent={"Workspace5"} />
-      <WorkspaceItem textContent={"Workspace6"} />
-      <WorkspaceItem textContent={"Workspace7"} />
-      <WorkspaceItem textContent={"Workspace8"} />
-      <WorkspaceItem textContent={"Workspace9"} />
-      <WorkspaceItem textContent={"Workspace10"} />
-      <WorkspaceItem textContent={"Workspace1"} />
-      <WorkspaceItem textContent={"Workspace2"} />
-      <WorkspaceItem textContent={"Workspace3"} />
-      <WorkspaceItem textContent={"Workspace4"} />
-      <WorkspaceItem textContent={"Workspace5"} />
-      <WorkspaceItem textContent={"Workspace6"} />
-      <WorkspaceItem textContent={"Workspace7"} />
-      <WorkspaceItem textContent={"Workspace8"} />
-      <WorkspaceItem textContent={"Workspace9"} />
-      <WorkspaceItem textContent={"Workspace10"} />
+      <WorkspaceItem
+        defaultSelectedKeys={["1"]}
+        defaultOpenKeys={["sub1"]}
+        mode="inline"
+        items={items}
+      />
     </Container>
   );
 };
