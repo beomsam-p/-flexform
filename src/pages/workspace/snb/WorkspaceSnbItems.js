@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { Menu } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { changeCurrentWorkspaceItem } from "store/worksapce/WorkspaceActions";
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -17,39 +19,40 @@ const WorkspaceItem = styled(Menu)`
   }
 `;
 
-const WorkspaceSnbItems = () => {
-  const getItem = (label, key, icon, children, type) => {
-    return {
-      key,
-      icon,
-      children,
-      label,
-      type,
-    };
+const getItem = (label, key, icon, children, type) => {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
   };
-  const items = [
-    getItem(
-      null,
-      "1",
-      null,
-      [
-        getItem("Workspace1", "sub1"),
-        getItem("Workspace2", "sub2"),
-        getItem("Workspace3", "sub3"),
-        getItem("Workspace4", "sub4"),
-        getItem("Workspace5", "sub5"),
-        getItem("Workspace6", "sub6"),
-      ],
-      "group"
-    ),
-  ];
+};
+
+const WorkspaceSnbItems = () => {
+  const dispatch = useDispatch();
+  const workspace = useSelector((state) => state.workspace);
+  const workspaceItems = workspace.workspaceItems;
+  const currentSelectedWorksapce = workspace.currentWorkspaceItem;
+
+  const menuItems = workspaceItems.map((workspaceItem) =>
+    getItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId)
+  );
+  const items = [getItem(null, "1", null, menuItems, "group")];
+
+  const onClickWorkspaceItems = ({ key }) => {
+    const newWorksapceItem = workspaceItems.find(
+      ({ workspaceId }) => workspaceId === Number(key)
+    );
+    dispatch(changeCurrentWorkspaceItem(newWorksapceItem));
+  };
   return (
     <Container>
       <WorkspaceItem
-        defaultSelectedKeys={["1"]}
-        defaultOpenKeys={["sub1"]}
+        selectedKeys={[currentSelectedWorksapce.workspaceId.toString()]}
         mode="inline"
         items={items}
+        onClick={onClickWorkspaceItems}
       />
     </Container>
   );

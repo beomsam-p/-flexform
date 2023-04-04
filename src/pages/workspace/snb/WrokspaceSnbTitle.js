@@ -4,6 +4,11 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeCurrentWorkspaceItem,
+  addWorkspace,
+} from "store/worksapce/WorkspaceActions";
 import styled from "styled-components";
 
 const TitleBtnGroup = styled.div`
@@ -36,6 +41,21 @@ const TitleTextIcon = styled(AppstoreOutlined)`
 `;
 
 const WrokspaceSnbTitle = () => {
+  const currentWorkspaceItem = useSelector(
+    (state) => state.workspace.currentWorkspaceItem
+  );
+
+  const dispatch = useDispatch();
+  const onClickAddWorkspace = () => {
+    const newWorksapceItem = {
+      workspaceName: "New Workspace",
+      workspaceId:
+        currentWorkspaceItem.workspaceId + Math.floor(Math.random() * 100) + 7,
+    };
+    dispatch(addWorkspace(newWorksapceItem));
+    dispatch(changeCurrentWorkspaceItem(newWorksapceItem));
+  };
+
   return (
     <Container>
       <TitleText>
@@ -44,7 +64,12 @@ const WrokspaceSnbTitle = () => {
       </TitleText>
       <TitleBtnGroup>
         <TitleBtnTooltip title="Add Workspace">
-          <Button shape="circle" size="small" icon={<PlusOutlined />} />
+          <Button
+            shape="circle"
+            size="small"
+            icon={<PlusOutlined />}
+            onClick={onClickAddWorkspace}
+          />
         </TitleBtnTooltip>
         <TitleBtnTooltip title="Sheach Workspace">
           <Button shape="circle" size="small" icon={<SearchOutlined />} />

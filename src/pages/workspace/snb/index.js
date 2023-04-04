@@ -1,5 +1,5 @@
 import React from "react";
-import SnbSurveyResultSnb from "./AccordionSnb";
+import AccordionSnb from "./AccordionSnb";
 import WorkspaceSnbItems from "./WorkspaceSnbItems";
 import WrokspaceSnbTitle from "./WrokspaceSnbTitle";
 import styled from "styled-components";
@@ -18,7 +18,7 @@ const WorkspaceSnb = () => {
     <WorkspaceSnbContainer>
       <WrokspaceSnbTitle />
       <WorkspaceSnbItems />
-      <SnbSurveyResultSnb />
+      <AccordionSnb />
     </WorkspaceSnbContainer>
   );
 };
