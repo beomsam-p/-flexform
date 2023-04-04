@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Menu } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { changeCurrentWorkspaceItem } from "store/worksapce/WorkspaceActions";
+import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -29,12 +28,11 @@ const getItem = (label, key, icon, children, type) => {
   };
 };
 
-const WorkspaceSnbItems = () => {
-  const dispatch = useDispatch();
-  const workspace = useSelector((state) => state.workspace);
-  const workspaceItems = workspace.workspaceItems;
-  const currentSelectedWorksapce = workspace.currentWorkspaceItem;
-
+const WorkspaceSnbItems = ({
+  workspaceItems,
+  currentWorksapce,
+  currentWorkspaceDispatch,
+}) => {
   const menuItems = workspaceItems.map((workspaceItem) =>
     getItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId)
   );
@@ -44,14 +42,15 @@ const WorkspaceSnbItems = () => {
     const newWorksapceItem = workspaceItems.find(
       ({ workspaceId }) => workspaceId === Number(key)
     );
-    dispatch(changeCurrentWorkspaceItem(newWorksapceItem));
+    currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
   };
+
   return (
     <Container>
       <WorkspaceItem
-        selectedKeys={[currentSelectedWorksapce.workspaceId.toString()]}
+        selectedKeys={[currentWorksapce.workspaceId.toString()]}
         mode="inline"
-        items={items}
+        items={items.sort((prev, next) => next.order - prev.order)}
         onClick={onClickWorkspaceItems}
       />
     </Container>

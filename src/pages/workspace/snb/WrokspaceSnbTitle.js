@@ -4,11 +4,8 @@ import {
   AppstoreOutlined,
 } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  changeCurrentWorkspaceItem,
-  addWorkspace,
-} from "store/worksapce/WorkspaceActions";
+import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
+import { addWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
 import styled from "styled-components";
 
 const TitleBtnGroup = styled.div`
@@ -40,20 +37,23 @@ const TitleTextIcon = styled(AppstoreOutlined)`
   margin-right: 10px;
 `;
 
-const WrokspaceSnbTitle = () => {
-  const currentWorkspaceItem = useSelector(
-    (state) => state.workspace.currentWorkspaceItem
-  );
-
-  const dispatch = useDispatch();
+const WrokspaceSnbTitle = ({
+  workspaceItems,
+  workspaceItemsDispatch,
+  currentWorksapce,
+  currentWorkspaceDispatch,
+}) => {
   const onClickAddWorkspace = () => {
     const newWorksapceItem = {
       workspaceName: "New Workspace",
       workspaceId:
-        currentWorkspaceItem.workspaceId + Math.floor(Math.random() * 100) + 7,
+        currentWorksapce.workspaceId + Math.floor(Math.random() * 100) + 7,
+      deletable: true,
+      order: workspaceItems.length,
     };
-    dispatch(addWorkspace(newWorksapceItem));
-    dispatch(changeCurrentWorkspaceItem(newWorksapceItem));
+    console.log(newWorksapceItem);
+    currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
+    workspaceItemsDispatch(addWorkspaceItem(newWorksapceItem));
   };
 
   return (

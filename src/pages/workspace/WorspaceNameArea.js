@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import styled from "styled-components";
 import { Button, Space } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import { changeCurrentWorkspaceItem } from "store/worksapce/WorkspaceActions";
-import { updateWorkspace } from "store/worksapce/WorkspaceActions";
-import { deleteWorkspace } from "store/worksapce/WorkspaceActions";
+import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
+import { updateWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
+import { deleteWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
 
 const Container = styled.div`
   padding: 25px 40px;
@@ -47,49 +46,31 @@ const WorkspaceDeleteButton = styled(Button)`
   }
 `;
 
-const WorspaceNameArea = () => {
-  const [worksapceNameVisible, setWorksapceNameVisible] = useState({
-    titleVisible: true,
-    titleInputvisible: false,
-  });
-
-  const currentWorkspaceItem = useSelector(
-    (state) => state.workspace.currentWorkspaceItem
-  );
-
-  const dispatch = useDispatch();
-
+const WorspaceNameArea = ({
+  workspaceItems,
+  workspaceItemsDispatch,
+  currentWorksapce,
+  currentWorkspaceDispatch,
+}) => {
   const workspaceNameInputRef = useRef(null);
 
-  const [workspaceName, setWorkspaceName] = useState(
-    currentWorkspaceItem.workspaceName
-  );
-  useEffect(() => {
-    setWorkspaceName(currentWorkspaceItem.workspaceName);
-  }, [currentWorkspaceItem]);
+  const onBlurWorkspaceNameInput = (e) => {
+    const worksapceTextValue = e.target.value;
+    if (worksapceTextValue === "" || worksapceTextValue.length > 20) {
+      alert("빈값, 20글자 이상의 workspace name을 지정할 수 없음.");
 
-  const toggleWorksapceName = () => {
-    setWorksapceNameVisible({
-      titleVisible: !worksapceNameVisible.titleVisible,
-      titleInputvisible: !worksapceNameVisible.titleInputvisible,
-    });
-  };
-
-  const onBlurWorkspaceNameInput = () => {
-    toggleWorksapceName();
-
-    const worksapceTextValue = workspaceNameInputRef.current.value.trim();
-    if (worksapceTextValue === "") {
-      alert("빈값");
-      workspaceNameInputRef.current.value = currentWorkspaceItem.workspaceName;
+      workspaceNameInputRef.current.value =
+        workspaceItems[currentWorksapce.workspaceId].workspaceName;
       return;
     }
+
     const newWorksapceItem = {
-      ...currentWorkspaceItem,
+      ...currentWorksapce,
       workspaceName: worksapceTextValue,
     };
-    dispatch(changeCurrentWorkspaceItem(newWorksapceItem));
-    dispatch(updateWorkspace(newWorksapceItem));
+
+    currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
+    workspaceItemsDispatch(updateWorkspaceItem(newWorksapceItem));
   };
 
   const keyDownWorkspaceInput = (e) => {
@@ -99,10 +80,22 @@ const WorspaceNameArea = () => {
   };
 
   const clickWorkspaceDelete = () => {
-    dispatch(deleteWorkspace(currentWorkspaceItem));
+    const foundBefore = workspaceItems.find(
+      (workspaceItem) => workspaceItem.order === currentWorksapce.order + 1
+    );
+    const beforeWorkspaceItem = foundBefore || workspaceItems[0];
+    workspaceItemsDispatch(deleteWorkspaceItem(currentWorksapce));
+    currentWorkspaceDispatch(changeCurrentWorkspace(beforeWorkspaceItem));
   };
+
   const onChangeWorkspaceInput = (e) => {
-    setWorkspaceName(e.target.value);
+    const worksapceTextValue = e.target.value;
+    const newWorksapceItem = {
+      ...currentWorksapce,
+      workspaceName: worksapceTextValue,
+    };
+
+    currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
   };
 
   return (
@@ -111,7 +104,7 @@ const WorspaceNameArea = () => {
         <Space.Compact>
           <WorkspaceNameInput
             ref={workspaceNameInputRef}
-            value={workspaceName}
+            value={currentWorksapce.workspaceName}
             onChange={onChangeWorkspaceInput}
             onBlur={onBlurWorkspaceNameInput}
             onKeyDown={keyDownWorkspaceInput}
@@ -119,6 +112,7 @@ const WorspaceNameArea = () => {
           <WorkspaceDeleteButton
             icon={<DeleteOutlined />}
             onClick={clickWorkspaceDelete}
+            disabled={!currentWorksapce.deletable}
           />
         </Space.Compact>
       </WorkspaceNameInputWaper>

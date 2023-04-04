@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
-import workspace from "store/worksapce";
 
-const rootReducer = combineReducers({ workspace });
+const rootReducer = combineReducers((state, action) => {
+  return state;
+});
 
 export default rootReducer;
