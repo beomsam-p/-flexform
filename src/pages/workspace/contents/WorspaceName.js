@@ -6,11 +6,7 @@ import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions"
 import { updateWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
 import { deleteWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
 
-const Container = styled.div`
-  padding: 25px 40px;
-`;
-
-const WorkspaceNameInputWaper = styled.div`
+const WorkspaceNameContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: stretch;
@@ -20,33 +16,52 @@ const WorkspaceNameInputWaper = styled.div`
 `;
 
 const WorkspaceNameInput = styled.textarea`
-  height: 40px;
+  height: 55px;
   width: 100%;
-  padding: 9px 11px;
-  font-size: 17px;
-  border-radius: 8px 0 0 8px;
+  min-width: 350px;
+  padding: 7px 11px;
+  font-size: 32px;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.8);
+  border-radius: 14px;
   border-right: 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid white;
   box-sizing: border-box;
-  background-color: #f8f8f8;
   overflow: hidden;
   resize: none;
-  &:focus,
-  &:hover {
+  &:focus {
+    border: 2px solid #4096ff;
+    background-color: rgba(0, 0, 0, 0.01);
     outline: none;
-    border: 1px solid #4096ff;
+  }
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.01);
+    outline: none;
   }
 `;
 
 const WorkspaceDeleteButton = styled(Button)`
-  height: 100%;
-  width: "40px";
-  &span {
-    font-size: "40px";
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  margin-left: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
+  &.ant-btn {
+    font-size: 17px;
+    color: rgba(0, 0, 0, 0.8);
+    width: 40px;
+    &:hover {
+      border: 2px solid #4096ff;
+    }
+  }
+  &.ant-btn-compact-item.ant-btn-compact-last-item {
+    border-radius: 55px;
   }
 `;
 
-const WorspaceNameArea = ({
+const WorspaceName = ({
   workspaceItems,
   workspaceItemsDispatch,
   currentWorksapce,
@@ -99,25 +114,23 @@ const WorspaceNameArea = ({
   };
 
   return (
-    <Container>
-      <WorkspaceNameInputWaper>
-        <Space.Compact>
-          <WorkspaceNameInput
-            ref={workspaceNameInputRef}
-            value={currentWorksapce.workspaceName}
-            onChange={onChangeWorkspaceInput}
-            onBlur={onBlurWorkspaceNameInput}
-            onKeyDown={keyDownWorkspaceInput}
-          ></WorkspaceNameInput>
-          <WorkspaceDeleteButton
-            icon={<DeleteOutlined />}
-            onClick={clickWorkspaceDelete}
-            disabled={!currentWorksapce.deletable}
-          />
-        </Space.Compact>
-      </WorkspaceNameInputWaper>
-    </Container>
+    <WorkspaceNameContainer>
+      <Space.Compact>
+        <WorkspaceNameInput
+          ref={workspaceNameInputRef}
+          value={currentWorksapce.workspaceName}
+          onChange={onChangeWorkspaceInput}
+          onBlur={onBlurWorkspaceNameInput}
+          onKeyDown={keyDownWorkspaceInput}
+        ></WorkspaceNameInput>
+        <WorkspaceDeleteButton
+          icon={<DeleteOutlined />}
+          onClick={clickWorkspaceDelete}
+          disabled={!currentWorksapce.deletable}
+        />
+      </Space.Compact>
+    </WorkspaceNameContainer>
   );
 };
 
-export default WorspaceNameArea;
+export default WorspaceName;

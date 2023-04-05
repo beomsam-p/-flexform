@@ -7,6 +7,10 @@ const AccordionMenu = styled(Menu)`
   &.ant-menu-light.ant-menu-inline {
     border-inline-end: none;
   }
+
+  &.ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline {
+    background: white;
+  }
 `;
 
 const AccordionSnb = () => {

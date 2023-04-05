@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Menu } from "antd";
 import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
+import { useEffect } from "react";
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -15,6 +16,9 @@ const WorkspaceItem = styled(Menu)`
     height: 0;
     padding: 0;
     margin: 0;
+  }
+  &.ant-menu-root.ant-menu-inline {
+    border-inline-end: none;
   }
 `;
 
@@ -44,6 +48,10 @@ const WorkspaceSnbItems = ({
     );
     currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
   };
+
+  useEffect(() => {
+    console.log("바뀜!!");
+  }, [workspaceItems]);
 
   return (
     <Container>

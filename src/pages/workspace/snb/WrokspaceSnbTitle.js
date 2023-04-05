@@ -22,7 +22,6 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: baseline;
-  border-right: 1px solid #efefef;
 `;
 
 const TitleText = styled.div`
@@ -51,7 +50,6 @@ const WrokspaceSnbTitle = ({
       deletable: true,
       order: workspaceItems.length,
     };
-    console.log(newWorksapceItem);
     currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
     workspaceItemsDispatch(addWorkspaceItem(newWorksapceItem));
   };
