@@ -14,7 +14,7 @@ export const workspaceItemsInit = [
   { workspaceName: "Workspace7", workspaceId: 6, order: 6, deletable: true },
 ];
 
-const workspaceItemsReducer = (state = workspaceItemsInit, action) => {
+const workspaceItemsReducer = (state, action) => {
   switch (action.type) {
     case ADD_WORKSPACE_ITEM:
       return [...state, action.workspaceItem];

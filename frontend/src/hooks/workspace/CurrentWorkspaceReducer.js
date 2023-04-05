@@ -7,7 +7,7 @@ export const currentWorkspaceInit = {
   deletable: true,
 };
 
-const currentWorkspaceReducer = (state = currentWorkspaceInit, action) => {
+const currentWorkspaceReducer = (state, action) => {
   switch (action.type) {
     case CHANGE_CURRENT_WORKSPACE:
       return action.workspaceItem;
