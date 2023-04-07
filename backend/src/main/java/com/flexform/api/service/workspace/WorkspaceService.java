@@ -1,4 +1,4 @@
-package com.flexform.api.service;
+package com.flexform.api.service.workspace;
 
 
 import com.flexform.api.dto.WorkspaceDto;

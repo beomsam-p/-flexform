@@ -1,12 +1,11 @@
-package com.flexform.api.service;
+package com.flexform.api.service.user;
 
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.User;
 import com.flexform.api.repository.UserRepository;
+import com.flexform.api.service.workspace.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
