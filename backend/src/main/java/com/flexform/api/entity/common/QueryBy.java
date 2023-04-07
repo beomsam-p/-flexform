@@ -1,4 +1,4 @@
-package com.flexform.api.entity;
+package com.flexform.api.entity.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +16,6 @@ public class QueryBy {
     @Column(name = "create_by", columnDefinition = "BINARY(16)", nullable = false)
     private UUID createBy;
 
-    @Column(name = "last_modified_by", columnDefinition = "BINARY(16)" , nullable = false)
-    private UUID lastModifiedBy;
+    @Column(name = "update_by", columnDefinition = "BINARY(16)" , nullable = false)
+    private UUID updateBy;
 }

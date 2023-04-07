@@ -1,4 +1,4 @@
-package com.flexform.api.entity;
+package com.flexform.api.entity.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,5 +13,5 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class Deleted {
     @Column(name = "is_delete", columnDefinition = "boolean default false", nullable = false)
-    private boolean isDelete;
+    private boolean isDelete ;
 }

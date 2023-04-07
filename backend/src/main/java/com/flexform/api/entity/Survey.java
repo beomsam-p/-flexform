@@ -3,16 +3,19 @@ package com.flexform.api.entity;
 import com.flexform.api.entity.common.Deleted;
 import com.flexform.api.entity.common.QueryBy;
 import com.flexform.api.entity.common.Timestamped;
+import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Embedded;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.UUID;
 
+@Entity
 @Table(name = "survey")
-public class SurveyEntity {
-    private UUID surveyID;
-
-    private WorkspaceEntity workspaceEntity;
+public class Survey {
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name="uuid2", strategy = "uuid2")
+    @Column(name = "survey_id", columnDefinition = "BINARY(16)")
+    private UUID surveyId;
 
     private String badge;
 
@@ -26,4 +29,8 @@ public class SurveyEntity {
 
     @Embedded
     private QueryBy queryBy;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "workspace_id")
+    private Workspace workspace;
 }
