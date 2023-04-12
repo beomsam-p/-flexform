@@ -2,11 +2,8 @@ package com.flexform.api.repository;
 
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.User;
-import com.flexform.api.entity.common.Deleted;
-import com.flexform.api.entity.common.QueryBy;
-import com.flexform.api.entity.common.Timestamped;
 import com.flexform.api.entity.Workspace;
-import com.flexform.api.service.workspace.UserService;
+import com.flexform.api.service.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +30,18 @@ class WorkspaceRepositoryTest {
     @Test
     @DisplayName("Sample Workspace 를 저장한다")
     void insertWorkspace() {
-        final UUID userId = UUID.randomUUID();
         //given
-        final Workspace workspace = Workspace.builder().
-                workspaceName("Workspace1").
-                workspaceOrder(0).
-                timestamped(new Timestamped(LocalDateTime.now(), LocalDateTime.now())).
-                deleted(new Deleted(false)).
-                queryBy(new QueryBy(userId, userId)).
-                build();
+        final UUID userId = UUID.randomUUID();
+        final LocalDateTime now = LocalDateTime.now();
+        final Workspace workspace = Workspace.builder()
+                .workspaceName("Workspace1")
+                .workspaceOrder(0)
+                .deletable(true)
+                .createdDate(now)
+                .updateDate(now)
+                .createBy(userId)
+                .updateBy(userId)
+                .build();
 
         //when
         final Workspace savedWorkspace = workspaceRepository.save(workspace);
@@ -58,17 +58,20 @@ class WorkspaceRepositoryTest {
         //given
         final UserDto userDto = userService.getLoginUser();
         final UserDto joinedUser = userService.joinUser(userDto);
-        final UUID userId = userDto.getUserId();
+        final UUID userId = UUID.randomUUID();
+        final LocalDateTime now = LocalDateTime.now();
         final List<Workspace> workspaces = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             final Workspace workspace = Workspace.builder()
                     .workspaceId(UUID.randomUUID())
-                    .user(User.toEntity(joinedUser))
+                    .user(User.of(joinedUser))
                     .workspaceName("workspace" + (i + 1))
                     .workspaceOrder(0)
-                    .timestamped(new Timestamped(LocalDateTime.now(), LocalDateTime.now()))
-                    .deleted(new Deleted(false))
-                    .queryBy(new QueryBy(userId, userId))
+                    .deletable(true)
+                    .createdDate(now)
+                    .updateDate(now)
+                    .createBy(userId)
+                    .updateBy(userId)
                     .build();
             workspaces.add(workspace);
         }
