@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Entity
-@Table(name = "User")
+@Table(name = "user")
 public class User {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -24,13 +24,13 @@ public class User {
     @Column(name = "user_id", columnDefinition = "BINARY(16)")
     private UUID userId;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     @Column(name = "profile_image_url")
@@ -39,7 +39,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     List<Workspace> workspaceList;
 
-    public UserDto toDto(){
+    public UserDto toDto() {
         return UserDto.builder()
                 .userId(this.userId)
                 .email(this.email)
@@ -49,7 +49,7 @@ public class User {
                 .build();
     }
 
-    public static User toEntity(UserDto userDto){
+    public static User of(UserDto userDto) {
         return User.builder()
                 .userId(userDto.getUserId())
                 .email(userDto.getEmail())

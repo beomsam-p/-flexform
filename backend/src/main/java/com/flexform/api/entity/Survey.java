@@ -1,8 +1,6 @@
 package com.flexform.api.entity;
 
-import com.flexform.api.entity.common.Deleted;
-import com.flexform.api.entity.common.QueryBy;
-import com.flexform.api.entity.common.Timestamped;
+import com.flexform.api.entity.common.BaseEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "survey")
-public class Survey {
+public class Survey extends BaseEntity{
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name="uuid2", strategy = "uuid2")
@@ -21,16 +19,10 @@ public class Survey {
 
     private String labelColor;
 
-    @Embedded
-    private Deleted deleted;
-
-    @Embedded
-    private Timestamped timestamped;
-
-    @Embedded
-    private QueryBy queryBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspace_id")
     private Workspace workspace;
+
+
 }

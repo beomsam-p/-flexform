@@ -1,4 +1,4 @@
-package com.flexform.api.service.workspace;
+package com.flexform.api.service.user;
 
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.User;

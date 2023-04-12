@@ -1,24 +1,23 @@
 package com.flexform.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.flexform.api.entity.User;
-import com.flexform.api.entity.common.Deleted;
-import com.flexform.api.entity.common.QueryBy;
-import com.flexform.api.entity.common.Timestamped;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.context.annotation.Primary;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class WorkspaceDto {
     private UUID workspaceId;
     private String workspaceName;
-    private int workspaceOrder;
-    private boolean isDelete;
+    private Integer workspaceOrder;
+    private Boolean deletable;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private UUID createBy;

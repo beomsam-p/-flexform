@@ -8,5 +8,4 @@ import lombok.Getter;
 public class StatusDto {
     private int code;
     private String message;
-    private String errorMessage;
 }

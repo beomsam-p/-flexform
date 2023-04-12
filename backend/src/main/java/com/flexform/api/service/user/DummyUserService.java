@@ -3,7 +3,6 @@ package com.flexform.api.service.user;
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.User;
 import com.flexform.api.repository.UserRepository;
-import com.flexform.api.service.workspace.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,19 +10,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DummyUserService implements UserService {
     private final UserRepository userRepository;
+
     @Override
     public UserDto getLoginUser() {
-        return UserDto.builder()
+        UserDto user = UserDto.builder()
                 .email("admin@flexfrom.com")
-                .password("pwd")
-                .nickname("admin")
-                .profileImageUrl("https://lh3.googleusercontent.com/ogw/AAEL6sieq28b9wewpwsuK00glJRZ4X_xfDa5f9U2nSCBaw=s32-c-mo")
                 .build();
+        return this.findUser(user);
     }
 
     @Override
     public UserDto joinUser(UserDto userDto) {
-        final User user = User.toEntity(userDto);
+        final User user = User.of(userDto);
         return userRepository.save(user).toDto();
     }
 
