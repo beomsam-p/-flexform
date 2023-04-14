@@ -1,8 +1,7 @@
 package com.flexform.api.service.workspace;
 
-import com.flexform.api.dto.UserDto;
+import com.flexform.api.DefaultUserBaseTest;
 import com.flexform.api.dto.WorkspaceDto;
-import com.flexform.api.service.user.UserService;
 import org.assertj.core.api.SoftAssertions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.*;
@@ -15,28 +14,10 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThatException;
 
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
-class WorkspaceServiceImplTest {
+class WorkspaceServiceImplTestDefaultUser extends DefaultUserBaseTest {
     @Autowired
     private WorkspaceServiceImpl workspaceService;
-
-    @Autowired
-    private UserService userService;
-
-    private UserDto loginUser;
-
-    @BeforeAll
-    void init() {
-        UserDto userDto = UserDto.builder()
-                .email("admin@flexfrom.com")
-                .nickname("test")
-                .password("test")
-                .profileImageUrl("test_url")
-                .build();
-        loginUser = userService.joinUser(userDto);
-    }
-
 
     @Test
     @DisplayName("workspace 추가 성공")
@@ -44,7 +25,7 @@ class WorkspaceServiceImplTest {
         //given
         String workspaceName = "test123";
         int workspaceOrder = 0;
-        UUID userId = loginUser.getUserId();
+        UUID userId = this.loginUser.getUserId();
         WorkspaceDto workspaceDto = WorkspaceDto.builder()
                 .workspaceName(workspaceName)
                 .workspaceOrder(workspaceOrder)
