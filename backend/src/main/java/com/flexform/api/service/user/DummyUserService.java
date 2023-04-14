@@ -27,7 +27,10 @@ public class DummyUserService implements UserService {
 
     @Override
     public UserDto findUser(UserDto userDto) {
-        final User userEntity = userRepository.findByEmail(userDto.getEmail()).orElseThrow(RuntimeException::new);
+        String email = userDto.getEmail();
+        final User userEntity = userRepository
+                .findByEmail(email)
+                .orElseThrow(()->new IllegalArgumentException("존재하지 않는 user email: " + email));
         return userEntity.toDto();
     }
 }
