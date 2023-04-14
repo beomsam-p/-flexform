@@ -52,7 +52,6 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         workspaceDto.setUser(loginUser);
         workspaceDto.setUpdateBy(loginUser.getUserId());
 
-
         workspace.setWorkspaceName(workspaceDto.getWorkspaceName());
         workspace.setWorkspaceOrder(workspaceDto.getWorkspaceOrder());
         workspace.setUpdateDate(LocalDateTime.now());
@@ -67,14 +66,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         return workspace.toDto();
     }
 
-    private Workspace findWorkspace(UUID workspaceId){
+    private Workspace findWorkspace(UUID workspaceId) {
         return workspaceRepository.findWorkspaceById(workspaceId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId));
     }
 
-    private void validUser(UserDto loginUser, Workspace workspace){
-        if(loginUser.getUserId().equals(workspace.getUser().getUserId())){
-           return;
+    private void validUser(UserDto loginUser, Workspace workspace) {
+        if (loginUser.getUserId().equals(workspace.getUser().getUserId())) {
+            return;
         }
         throw new IllegalArgumentException("해당 Workspace 에 대한 변경 권한이 없음.");
     }
