@@ -1,11 +1,11 @@
 package com.flexform.api.repository;
 
+import com.flexform.api.DefaultUserBaseTest;
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.User;
 import com.flexform.api.entity.Workspace;
 import com.flexform.api.service.user.UserService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -19,13 +19,12 @@ import static org.assertj.core.api.BDDAssertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class WorkspaceRepositoryTest {
+class WorkspaceRepositoryTest extends DefaultUserBaseTest {
     @Autowired
     private WorkspaceRepository workspaceRepository;
 
     @Autowired
     private UserService userService;
-
 
     @Test
     @DisplayName("Sample Workspace 를 저장한다")
@@ -53,11 +52,11 @@ class WorkspaceRepositoryTest {
     }
 
     @Test
-    @DisplayName("유저별 워크스페이스를 조회한다.")
+    @DisplayName("워크스페이스를 조회한다.")
     void findWorkspaceByUser() {
         //given
-        final UserDto userDto = userService.getLoginUser();
-        final UserDto joinedUser = userService.joinUser(userDto);
+        final UserDto userDto = this.userService.getLoginUser();
+        final UserDto joinedUser = this.userService.joinUser(userDto);
         final UUID userId = UUID.randomUUID();
         final LocalDateTime now = LocalDateTime.now();
         final List<Workspace> workspaces = new ArrayList<>();
