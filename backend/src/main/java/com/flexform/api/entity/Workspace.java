@@ -35,7 +35,7 @@ public class Workspace extends BaseEntity {
     private Integer workspaceOrder;
 
 
-    @Column(name = "deletable", columnDefinition = "BOOLEAN DEFAULT TRUE" , nullable = false)
+    @Column(name = "deletable", columnDefinition = "BIT DEFAULT TRUE" , nullable = false)
     private Boolean deletable;
 
 

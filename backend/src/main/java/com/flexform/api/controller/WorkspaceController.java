@@ -24,7 +24,6 @@ public class WorkspaceController {
     private final WorkspaceService workspaceService;
     private final UserService userService;
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/workspaces")
     public ResponseEntity<ResponseContainer> getWorkspaces() {
@@ -38,7 +37,6 @@ public class WorkspaceController {
                 .build());
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/workspaces")
     public ResponseEntity<ResponseContainer> addWorkspace(@RequestBody WorkspaceDto workspaceDto) {
