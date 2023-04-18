@@ -1,6 +1,6 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { PlusCircleFilled } from "@ant-design/icons";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { PlusCircleFilled } from '@ant-design/icons';
 
 const ThumbnailBoxCss = css`
   border: 2px solid rgba(200, 200, 200, 0.3);

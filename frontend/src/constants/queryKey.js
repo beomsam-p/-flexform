@@ -1,0 +1,1 @@
+export const GET_WORKSPACE = 'GET_WORKSPACE';

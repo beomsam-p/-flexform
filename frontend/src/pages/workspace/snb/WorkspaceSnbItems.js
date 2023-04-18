@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { Menu } from "antd";
-import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
-import { useEffect } from "react";
+import styled from 'styled-components';
+import { Menu, Skeleton } from 'antd';
+import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
+import { useEffect } from 'react';
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -22,6 +22,14 @@ const WorkspaceItem = styled(Menu)`
   }
 `;
 
+const WorkspaceItemSkeletons = styled.div`
+  display: ${({ isLoading }) => (isLoading ? 'block' : 'none')};
+  padding: 4px;
+  & span {
+    margin-bottom: 10px;
+  }
+`;
+
 const getItem = (label, key, icon, children, type) => {
   return {
     key,
@@ -32,29 +40,28 @@ const getItem = (label, key, icon, children, type) => {
   };
 };
 
-const WorkspaceSnbItems = ({
-  workspaceItems,
-  currentWorksapce,
-  currentWorkspaceDispatch,
-}) => {
-  const menuItems = workspaceItems.map((workspaceItem) =>
-    getItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId)
+const WorkspaceSnbItems = ({ workspaceItems, currentWorksapce, currentWorkspaceDispatch, isLoading }) => {
+  const menuItems = workspaceItems.map(workspaceItem =>
+    getItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId),
   );
-  const items = [getItem(null, "1", null, menuItems, "group")];
+  const items = [getItem(null, '1', null, menuItems, 'group')];
 
   const onClickWorkspaceItems = ({ key }) => {
-    const newWorksapceItem = workspaceItems.find(
-      ({ workspaceId }) => workspaceId === Number(key)
-    );
+    const newWorksapceItem = workspaceItems.find(({ workspaceId }) => workspaceId === key);
     currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
   };
 
   useEffect(() => {
-    console.log("바뀜!!");
+    console.log('바뀜!!');
   }, [workspaceItems]);
 
   return (
     <Container>
+      <WorkspaceItemSkeletons isLoading={isLoading}>
+        <Skeleton.Button active={true} block={true} />
+        <Skeleton.Button active={true} block={true} />
+        <Skeleton.Button active={true} block={true} />
+      </WorkspaceItemSkeletons>
       <WorkspaceItem
         selectedKeys={[currentWorksapce.workspaceId.toString()]}
         mode="inline"

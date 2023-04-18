@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import SurveySnbTitle from "./SurveySnbTitle";
+import React from 'react';
+import styled from 'styled-components';
+import SurveySnbTitle from './SurveySnbTitle';
 const SurveySnbContainer = styled.div`
   height: calc(100vh - 54px);
   width: 17vw;

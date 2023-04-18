@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled, { keyframes } from "styled-components";
-import defaultProfile from "assets/default_profile.png";
-import { Card, Avatar } from "antd";
-import { SettingOutlined, LogoutOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import defaultProfile from 'assets/default_profile.png';
+import { Card, Avatar } from 'antd';
+import { SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 const { Meta } = Card;
 
 const ProfileTitleIcon = styled(Meta)`
@@ -47,6 +47,7 @@ const ProfileImg = styled.img`
 `;
 
 const ProfileCard = styled(Card)`
+  z-index: 999;
   position: absolute;
   right: 75px;
   top: 5px;
@@ -57,9 +58,8 @@ const ProfileCard = styled(Card)`
   .no-margin {
     margin: 0;
   }
-  visibility: ${({ visible }) => (visible === "true" ? "visible" : "hidden")};
-  animation: ${({ visible }) => (visible === "true" ? fadeIn : fadeOut)}
-    ease-in-out 0.2s;
+  visibility: ${({ visible }) => (visible === 'true' ? 'visible' : 'hidden')};
+  animation: ${({ visible }) => (visible === 'true' ? fadeIn : fadeOut)} ease-in-out 0.2s;
 `;
 
 const ProfileCardBtn = styled.div`
@@ -95,10 +95,7 @@ const Profile = () => {
           </ProfileCardBtn>,
         ]}
       >
-        <ProfileTitleIcon
-          avatar={<Avatar src={defaultProfile} />}
-          title="amdin@flexform.com"
-        />
+        <ProfileTitleIcon avatar={<Avatar src={defaultProfile} />} title="amdin@flexform.com" />
       </ProfileCard>
     </Container>
   );

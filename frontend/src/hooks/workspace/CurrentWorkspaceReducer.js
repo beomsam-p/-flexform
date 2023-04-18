@@ -1,11 +1,4 @@
-import { CHANGE_CURRENT_WORKSPACE } from "./CurrentWorkspaceActions";
-
-export const currentWorkspaceInit = {
-  workspaceName: "Workspace1",
-  workspaceId: 0,
-  order: 0,
-  deletable: true,
-};
+import { CHANGE_CURRENT_WORKSPACE } from './CurrentWorkspaceActions';
 
 const currentWorkspaceReducer = (state, action) => {
   switch (action.type) {

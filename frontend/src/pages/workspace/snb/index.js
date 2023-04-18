@@ -1,5 +1,5 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
 const WorkspaceSnbContainer = styled.div`
   height: calc(100vh - 54px);

@@ -1,12 +1,8 @@
-import {
-  PlusOutlined,
-  SearchOutlined,
-  AppstoreOutlined,
-} from "@ant-design/icons";
-import { Button, Tooltip } from "antd";
-import { changeCurrentWorkspace } from "hooks/workspace/CurrentWorkspaceActions";
-import { addWorkspaceItem } from "hooks/workspace/WorkspaceItemsActions";
-import styled from "styled-components";
+import { PlusOutlined, SearchOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { Button, Tooltip } from 'antd';
+import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
+import { addWorkspaceItem } from 'hooks/workspace/WorkspaceItemsActions';
+import styled from 'styled-components';
 
 const TitleBtnGroup = styled.div`
   display: flex;
@@ -36,17 +32,11 @@ const TitleTextIcon = styled(AppstoreOutlined)`
   margin-right: 10px;
 `;
 
-const WrokspaceSnbTitle = ({
-  workspaceItems,
-  workspaceItemsDispatch,
-  currentWorksapce,
-  currentWorkspaceDispatch,
-}) => {
+const WrokspaceSnbTitle = ({ workspaceItems, workspaceItemsDispatch, currentWorksapce, currentWorkspaceDispatch }) => {
   const onClickAddWorkspace = () => {
     const newWorksapceItem = {
-      workspaceName: "New Workspace",
-      workspaceId:
-        currentWorksapce.workspaceId + Math.floor(Math.random() * 100) + 7,
+      workspaceName: 'New Workspace',
+      workspaceId: currentWorksapce.workspaceId + Math.floor(Math.random() * 100) + 7,
       deletable: true,
       order: workspaceItems.length,
     };
@@ -62,12 +52,7 @@ const WrokspaceSnbTitle = ({
       </TitleText>
       <TitleBtnGroup>
         <TitleBtnTooltip title="Add Workspace">
-          <Button
-            shape="circle"
-            size="small"
-            icon={<PlusOutlined />}
-            onClick={onClickAddWorkspace}
-          />
+          <Button shape="circle" size="small" icon={<PlusOutlined />} onClick={onClickAddWorkspace} />
         </TitleBtnTooltip>
         <TitleBtnTooltip title="Sheach Workspace">
           <Button shape="circle" size="small" icon={<SearchOutlined />} />
