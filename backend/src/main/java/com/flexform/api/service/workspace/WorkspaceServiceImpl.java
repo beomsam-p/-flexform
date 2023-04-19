@@ -23,10 +23,16 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
 
     @Override
-    public List<WorkspaceDto> getWorkspaces() {
-        final UserDto loginUser = userService.getLoginUser();
+    public WorkspaceDto getWorkspace(UUID workspaceId, UserDto loginUser) {
         final UserDto user = userService.findUser(loginUser);
-        final List<Workspace> workspaces = workspaceRepository.findWorkspacesByUserId(user.getUserId());
+        return workspaceRepository.findWorkspaceById(workspaceId, user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId))
+                .toDto();
+    }
+
+    @Override
+    public List<WorkspaceDto> getWorkspaces(UserDto loginUser) {
+        final List<Workspace> workspaces = workspaceRepository.findWorkspacesByUserId(loginUser.getUserId());
         return workspaces.stream()
                 .map(Workspace::toDto)
                 .collect(Collectors.toList());
@@ -46,7 +52,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     @Transactional
     public WorkspaceDto updateWorkspace(WorkspaceDto workspaceDto, UserDto loginUser) {
-        Workspace workspace = findWorkspace(workspaceDto.getWorkspaceId());
+        Workspace workspace = findWorkspace(workspaceDto.getWorkspaceId(), loginUser.getUserId());
         validUser(loginUser, workspace);
 
         workspaceDto.setUser(loginUser);
@@ -60,14 +66,15 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     }
 
     @Override
-    public WorkspaceDto deleteWorkspace(UUID workspaceID, UserDto loginUser) {
-        Workspace workspace = findWorkspace(workspaceID);
+    public WorkspaceDto deleteWorkspace(UUID workspaceId, UserDto loginUser) {
+        Workspace workspace = findWorkspace(workspaceId, loginUser.getUserId());
+        validUser(loginUser, workspace);
         workspaceRepository.delete(workspace);
         return workspace.toDto();
     }
 
-    private Workspace findWorkspace(UUID workspaceId) {
-        return workspaceRepository.findWorkspaceById(workspaceId)
+    private Workspace findWorkspace(UUID workspaceId, UUID userId) {
+        return workspaceRepository.findWorkspaceById(workspaceId, userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId));
     }
 

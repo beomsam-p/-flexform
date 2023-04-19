@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface WorkspaceService {
-    List<WorkspaceDto> getWorkspaces();
+    WorkspaceDto getWorkspace(UUID workspaceId , UserDto loginUser);
+    List<WorkspaceDto> getWorkspaces(UserDto loginUser);
     WorkspaceDto addWorkspace(WorkspaceDto workspaceDto, UserDto loginUser);
     WorkspaceDto updateWorkspace(WorkspaceDto workspaceDto , UserDto loginUser);
-    WorkspaceDto deleteWorkspace(UUID workspaceID , UserDto loginUser);
+    WorkspaceDto deleteWorkspace(UUID workspaceId, UserDto loginUser);
 }
