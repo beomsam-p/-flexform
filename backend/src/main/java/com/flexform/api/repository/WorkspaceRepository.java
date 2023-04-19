@@ -25,6 +25,7 @@ public interface WorkspaceRepository extends JpaRepository<Workspace, UUID> {
             "FROM Workspace w " +
             "INNER JOIN FETCH w.user u " +
             "WHERE w.workspaceId = :workspaceId " +
+            "AND u.userId = :userId " +
             "")
-    Optional<Workspace> findWorkspaceById(@Param("workspaceId") UUID workspaceId);
+    Optional<Workspace> findWorkspaceById(@Param("workspaceId") UUID workspaceId, @Param("userId") UUID userId);
 }
