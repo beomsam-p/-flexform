@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import { Menu, Skeleton } from 'antd';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
+import useAxios from 'hooks/axios/UseAxios';
+import { handleApiException } from 'exception/ApiException';
+import workspaceItemsReducer from 'hooks/workspace/WorkspaceItemsReducer';
+import currentWorkspaceReducer from 'hooks/workspace/CurrentWorkspaceReducer';
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -30,7 +34,7 @@ const WorkspaceItemSkeletons = styled.div`
   }
 `;
 
-const getItem = (label, key, icon, children, type) => {
+const convertItem = (label, key, icon, children, type) => {
   return {
     key,
     icon,
@@ -40,34 +44,35 @@ const getItem = (label, key, icon, children, type) => {
   };
 };
 
-const WorkspaceSnbItems = ({ workspaceItems, currentWorksapce, currentWorkspaceDispatch, isLoading }) => {
-  const menuItems = workspaceItems.map(workspaceItem =>
-    getItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId),
+const convertItems = workspaces => {
+  const menuItems = workspaces.map(workspaceItem =>
+    convertItem(workspaceItem?.workspaceName, workspaceItem?.workspaceId),
   );
-  const items = [getItem(null, '1', null, menuItems, 'group')];
+  return [convertItem(null, '1', null, menuItems, 'group')];
+};
 
+const WorkspaceSnbItems = ({ workspaces, isLoading, isError, currentWorkspace, currentWorkspaceDispatch }) => {
   const onClickWorkspaceItems = ({ key }) => {
-    const newWorksapceItem = workspaceItems.find(({ workspaceId }) => workspaceId === key);
+    const newWorksapceItem = workspaces.find(({ workspaceId }) => workspaceId === key);
     currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
   };
 
-  useEffect(() => {
-    console.log('바뀜!!');
-  }, [workspaceItems]);
-
   return (
     <Container>
-      <WorkspaceItemSkeletons isLoading={isLoading}>
-        <Skeleton.Button active={true} block={true} />
-        <Skeleton.Button active={true} block={true} />
-        <Skeleton.Button active={true} block={true} />
-      </WorkspaceItemSkeletons>
-      <WorkspaceItem
-        selectedKeys={[currentWorksapce.workspaceId.toString()]}
-        mode="inline"
-        items={items.sort((prev, next) => next.order - prev.order)}
-        onClick={onClickWorkspaceItems}
-      />
+      {isLoading || isError ? (
+        <WorkspaceItemSkeletons isLoading={isLoading || isError}>
+          <Skeleton.Button active={true} block={true} />
+          <Skeleton.Button active={true} block={true} />
+          <Skeleton.Button active={true} block={true} />
+        </WorkspaceItemSkeletons>
+      ) : (
+        <WorkspaceItem
+          selectedKeys={[currentWorkspace?.workspaceId?.toString()]}
+          mode="inline"
+          items={convertItems(workspaces).sort((prev, next) => next.order - prev.order)}
+          onClick={onClickWorkspaceItems}
+        />
+      )}
     </Container>
   );
 };

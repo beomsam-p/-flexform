@@ -1,7 +1,7 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import currentWorkspaceReducer from 'hooks/workspace/CurrentWorkspaceReducer';
-import workspaceItemsReducer from 'hooks/workspace/WorkspaceItemsReducer';
+
 import WorkspaceSnb from 'pages/workspace/snb';
 import AccordionSnb from 'pages/workspace/snb/AccordionSnb';
 import WorkspaceSnbItems from 'pages/workspace/snb/WorkspaceSnbItems';
@@ -11,8 +11,8 @@ import WorspaceName from 'pages/workspace/contents/WorspaceName';
 import Thumbnails from './contents/Thumbnails';
 import DefaultThumbnail from './contents/DefaultThumbnail';
 
-import { handleApiException } from 'exception/ApiException';
 import useAxios from 'hooks/axios/UseAxios';
+import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
 
 const Container = styled.div`
   width: 100%;
@@ -21,47 +21,37 @@ const Container = styled.div`
 `;
 
 const Workspace = () => {
-  const [{ response: workspaces, isLoading, isError }, refetch] = useAxios('/v1/workspaces', 'get', handleApiException);
-  console.log('isLoading:' + isLoading);
-  console.log('isError:' + isError);
-  console.log(workspaces);
+  const url = '/v1/workspaces';
+  const method = 'get';
+  const [{ response: workspaces, isLoading, isError }, refetch] = useAxios({ url, method });
 
-  // const camelCaseWorkspaces = workspaces.map(
-  //   ({
-  //     workspace_id: workspaceId,
-  //     workspace_name: workspaceName,
-  //     workspace_order: order,
-  //     deletable,
-  //     create_date: createDate,
-  //     update_date: updateDate,
-  //     create_by: createBy,
-  //     update_by: updateBy,
-  //   }) => {
-  //     return {
-  //       workspaceId,
-  //       workspaceName,
-  //       order,
-  //       deletable,
-  //       createDate,
-  //       updateDate,
-  //       createBy,
-  //       updateBy,
-  //     };
-  //   },
-  // );
-  // const [workspaceItems, workspaceItemsDispatch] = useReducer(workspaceItemsReducer, camelCaseWorkspaces);
-  // const [currentWorksapce, currentWorkspaceDispatch] = useReducer(currentWorkspaceReducer, camelCaseWorkspaces[0]);
+  const initWorkspace =
+    isError || isLoading
+      ? {
+          workspaceId: null,
+          workspaceName: null,
+          order: null,
+          deletable: true,
+        }
+      : workspaces[0];
 
-  // const workspaceSnbProps = {
-  //   workspaceItems,
-  //   workspaceItemsDispatch,
-  //   currentWorksapce,
-  //   currentWorkspaceDispatch,
-  //   isLoading,
-  // };
+  const [currentWorkspace, currentWorkspaceDispatch] = useReducer(currentWorkspaceReducer, null);
+
+  useEffect(() => {
+    workspaces && currentWorkspaceDispatch(changeCurrentWorkspace(initWorkspace));
+  }, [isLoading, isError]);
+  const workspaceSnbProps = {
+    workspaces,
+    isLoading,
+    isError,
+    refetch,
+    currentWorkspace,
+    currentWorkspaceDispatch,
+  };
+
   return (
     <Container>
-      {/* <WorkspaceSnb>
+      <WorkspaceSnb>
         <WrokspaceSnbTitle {...workspaceSnbProps} />
         <WorkspaceSnbItems {...workspaceSnbProps} />
         <AccordionSnb />
@@ -71,7 +61,7 @@ const Workspace = () => {
         <Thumbnails>
           <DefaultThumbnail />
         </Thumbnails>
-      </WorksapceContent> */}
+      </WorksapceContent>
     </Container>
   );
 };
