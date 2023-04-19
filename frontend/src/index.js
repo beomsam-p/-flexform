@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import axios from 'axios';
+import { handleApiException } from 'exception/ApiException';
 
 // 배포 레벨에서는 리덕스 발동시 찍히는 logger를 사용하지 않음
 const queryClient = new QueryClient({
@@ -20,11 +21,13 @@ const queryClient = new QueryClient({
     queries: {
       suspense: true,
     },
+    onError: handleApiException,
   },
 });
 
 //axios 설정
 axios.defaults.baseURL = process.env.REACT_APP_API_ROOT;
+//axios.defaults.validateStatus = status => status >= 200 && status < 500;
 
 const enhancer =
   process.env.NODE_ENV === 'production' ? compose(applyMiddleware()) : composeWithDevTools(applyMiddleware(logger));

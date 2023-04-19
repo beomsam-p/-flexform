@@ -10,10 +10,9 @@ import WorksapceContent from 'pages/workspace/contents';
 import WorspaceName from 'pages/workspace/contents/WorspaceName';
 import Thumbnails from './contents/Thumbnails';
 import DefaultThumbnail from './contents/DefaultThumbnail';
-import { useQuery } from 'react-query';
-import { GET_WORKSPACE } from 'constants/queryKey';
-import axios from 'axios';
+
 import { handleApiException } from 'exception/ApiException';
+import useAxios from 'hooks/axios/UseAxios';
 
 const Container = styled.div`
   width: 100%;
@@ -22,63 +21,47 @@ const Container = styled.div`
 `;
 
 const Workspace = () => {
-  const {
-    data: workspaces,
-    isLoading,
-    isError,
-  } = useQuery(
-    GET_WORKSPACE,
-    async () => {
-      try {
-        const { data } = await axios.get('/v1/workspaces1');
-        return data.data;
-      } catch (error) {
-        throw error;
-      }
-    },
-    {
-      staleTime: Infinity,
-      retry: false,
-      onError: handleApiException,
-    },
-  );
-  console.log('isError:', isError);
-  const camelCaseWorkspaces = workspaces.map(
-    ({
-      workspace_id: workspaceId,
-      workspace_name: workspaceName,
-      workspace_order: order,
-      deletable,
-      create_date: createDate,
-      update_date: updateDate,
-      create_by: createBy,
-      update_by: updateBy,
-    }) => {
-      return {
-        workspaceId,
-        workspaceName,
-        order,
-        deletable,
-        createDate,
-        updateDate,
-        createBy,
-        updateBy,
-      };
-    },
-  );
-  const [workspaceItems, workspaceItemsDispatch] = useReducer(workspaceItemsReducer, camelCaseWorkspaces);
-  const [currentWorksapce, currentWorkspaceDispatch] = useReducer(currentWorkspaceReducer, camelCaseWorkspaces[0]);
+  const [{ response: workspaces, isLoading, isError }, refetch] = useAxios('/v1/workspaces', 'get', handleApiException);
+  console.log('isLoading:' + isLoading);
+  console.log('isError:' + isError);
+  console.log(workspaces);
 
-  const workspaceSnbProps = {
-    workspaceItems,
-    workspaceItemsDispatch,
-    currentWorksapce,
-    currentWorkspaceDispatch,
-    isLoading,
-  };
+  // const camelCaseWorkspaces = workspaces.map(
+  //   ({
+  //     workspace_id: workspaceId,
+  //     workspace_name: workspaceName,
+  //     workspace_order: order,
+  //     deletable,
+  //     create_date: createDate,
+  //     update_date: updateDate,
+  //     create_by: createBy,
+  //     update_by: updateBy,
+  //   }) => {
+  //     return {
+  //       workspaceId,
+  //       workspaceName,
+  //       order,
+  //       deletable,
+  //       createDate,
+  //       updateDate,
+  //       createBy,
+  //       updateBy,
+  //     };
+  //   },
+  // );
+  // const [workspaceItems, workspaceItemsDispatch] = useReducer(workspaceItemsReducer, camelCaseWorkspaces);
+  // const [currentWorksapce, currentWorkspaceDispatch] = useReducer(currentWorkspaceReducer, camelCaseWorkspaces[0]);
+
+  // const workspaceSnbProps = {
+  //   workspaceItems,
+  //   workspaceItemsDispatch,
+  //   currentWorksapce,
+  //   currentWorkspaceDispatch,
+  //   isLoading,
+  // };
   return (
     <Container>
-      <WorkspaceSnb>
+      {/* <WorkspaceSnb>
         <WrokspaceSnbTitle {...workspaceSnbProps} />
         <WorkspaceSnbItems {...workspaceSnbProps} />
         <AccordionSnb />
@@ -88,7 +71,7 @@ const Workspace = () => {
         <Thumbnails>
           <DefaultThumbnail />
         </Thumbnails>
-      </WorksapceContent>
+      </WorksapceContent> */}
     </Container>
   );
 };
