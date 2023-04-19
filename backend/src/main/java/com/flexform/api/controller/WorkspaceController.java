@@ -27,7 +27,8 @@ public class WorkspaceController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/workspaces")
     public ResponseEntity<ResponseContainer> getWorkspaces() {
-        final List<WorkspaceDto> workspaces = workspaceService.getWorkspaces();
+        UserDto loginUser = userService.getLoginUser();
+        final List<WorkspaceDto> workspaces = workspaceService.getWorkspaces(loginUser);
         return ResponseEntity.ok().body(ResponseContainer.builder()
                 .status(StatusDto.builder()
                         .code(HttpStatus.OK.value())
@@ -36,6 +37,23 @@ public class WorkspaceController {
                 .data(workspaces)
                 .build());
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/workspaces/{workspaceId}")
+    public ResponseEntity<ResponseContainer> getWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId) {
+        UserDto loginUser = userService.getLoginUser();
+        WorkspaceDto deletedWorkspace = workspaceService.getWorkspace(workspaceId, loginUser);
+        return ResponseEntity.ok().body(ResponseContainer.builder()
+                .status(StatusDto.builder()
+                        .code(HttpStatus.OK.value())
+                        .message(HttpStatus.OK.name())
+                        .build())
+                .data(deletedWorkspace)
+                .build());
+    }
+
+
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/workspaces")
@@ -51,7 +69,6 @@ public class WorkspaceController {
                 .build());
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/workspaces/{workspaceId}")
     public ResponseEntity<ResponseContainer> updateWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId, @RequestBody WorkspaceDto workspaceDto) {
@@ -67,19 +84,12 @@ public class WorkspaceController {
                 .build());
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/workspaces/{workspaceId}")
-    public ResponseEntity<ResponseContainer> deleteWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId) {
+    public ResponseEntity<Void> deleteWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId) {
         UserDto loginUser = userService.getLoginUser();
-        WorkspaceDto deletedWorkspace = workspaceService.deleteWorkspace(workspaceId, loginUser);
-        return ResponseEntity.ok().body(ResponseContainer.builder()
-                .status(StatusDto.builder()
-                        .code(HttpStatus.NO_CONTENT.value())
-                        .message(HttpStatus.NO_CONTENT.name())
-                        .build())
-                .data(deletedWorkspace)
-                .build());
+        workspaceService.deleteWorkspace(workspaceId, loginUser);
+        return ResponseEntity.noContent().build();
     }
 
 
