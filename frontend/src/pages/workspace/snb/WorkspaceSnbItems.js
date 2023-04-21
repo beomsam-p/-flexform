@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 import { Menu, Skeleton } from 'antd';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
-import { useEffect, useReducer } from 'react';
-import useAxios from 'hooks/axios/UseAxios';
-import { handleApiException } from 'exception/ApiException';
-import workspaceItemsReducer from 'hooks/workspace/WorkspaceItemsReducer';
-import currentWorkspaceReducer from 'hooks/workspace/CurrentWorkspaceReducer';
 
 const Container = styled.div`
   border-top: 1px solid #f5f5f5;
@@ -16,6 +11,7 @@ const Container = styled.div`
 
 const WorkspaceItem = styled(Menu)`
   width: 100%;
+
   &.ant-menu .ant-menu-item-group-title {
     height: 0;
     padding: 0;

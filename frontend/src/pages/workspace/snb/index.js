@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const WorkspaceSnbContainer = styled.div`
   height: calc(100vh - 54px);
-  min-width: 210px;
+  width: 240px;
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
