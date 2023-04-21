@@ -15,12 +15,8 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import axios from 'axios';
 import { handleApiException } from 'exception/ApiException';
 
-// 배포 레벨에서는 리덕스 발동시 찍히는 logger를 사용하지 않음
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {
-      suspense: true,
-    },
     onError: handleApiException,
   },
 });
