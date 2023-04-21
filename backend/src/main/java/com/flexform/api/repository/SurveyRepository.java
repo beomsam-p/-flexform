@@ -15,7 +15,8 @@ public interface SurveyRepository extends JpaRepository<Survey, UUID> {
             "INNER JOIN FETCH s.workspace w " +
             "INNER JOIN FETCH w.user  u " +
             "WHERE w.workspaceId = :workspaceId " +
-            "AND u.userId = :userId ")
+            "AND u.userId = :userId " +
+            "ORDER BY s.createdDate ")
     List<Survey> findSurveysByWorkspaceId(@Param("workspaceId") UUID workspaceId, @Param("userId") UUID userId);
 
     @Query("SELECT s, u " +

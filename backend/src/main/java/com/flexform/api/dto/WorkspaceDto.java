@@ -24,10 +24,10 @@ public class WorkspaceDto  {
     private String workspaceName;
 
     @Min(value = 1, message = "[workspace_order]는 1 이상입니다.")
-    @NotNull(message = "[workspace_name]은 필수 값입니다.")
+    @NotNull(message = "[workspace_order]은 필수 값입니다.")
     private Integer workspaceOrder;
 
-    @NotNull(message = "[workspace_name]은 필수 값입니다.")
+
     private Boolean deletable;
 
 

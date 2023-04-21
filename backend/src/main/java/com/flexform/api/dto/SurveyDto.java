@@ -16,18 +16,21 @@ import java.util.UUID;
 public class SurveyDto {
     private UUID surveyId;
 
-    @NotBlank(message = "[workspace_name]은 필수 값입니다.")
+    @NotBlank(message = "[badge]은 필수 값입니다.")
     private String badge;
 
-    @NotBlank(message = "[workspace_name]은 필수 값입니다.")
+    @NotBlank(message = "[label_color]은 필수 값입니다.")
     private String labelColor;
 
+    @NotBlank(message = "[survey_name]은 필수 값입니다.")
+    private String surveyName;
 
+    private Integer responseCount;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private UUID createBy;
     private UUID updateBy;
 
-    @JsonIgnore
+    //@JsonIgnore
     private WorkspaceDto workspace;
 }

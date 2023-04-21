@@ -43,7 +43,7 @@ public class Workspace extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "workspace")
+    @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL)
     private List<Survey> surveyList;
 
 

@@ -33,6 +33,8 @@ public class Survey extends BaseEntity{
     @Column(name = "label_color")
     private String labelColor;
 
+    @Column(name = "response_count")
+    private Integer responseCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "workspace_id")
@@ -42,8 +44,10 @@ public class Survey extends BaseEntity{
     public SurveyDto toDto(){
         return SurveyDto.builder()
                 .surveyId(this.surveyId)
+                .surveyName(this.surveyName)
                 .badge(this.badge)
                 .labelColor(this.labelColor)
+                .responseCount(this.responseCount)
                 .workspace(this.workspace.toDto())
                 .createBy(this.createBy)
                 .updateBy(this.updateBy)
@@ -57,6 +61,7 @@ public class Survey extends BaseEntity{
                 .surveyId(surveyDto.getSurveyId())
                 .badge(surveyDto.getBadge())
                 .labelColor(surveyDto.getLabelColor())
+                .responseCount(surveyDto.getResponseCount())
                 .workspace(Workspace.of(surveyDto.getWorkspace()))
                 .createBy(surveyDto.getCreateBy())
                 .updateBy(surveyDto.getUpdateBy())
