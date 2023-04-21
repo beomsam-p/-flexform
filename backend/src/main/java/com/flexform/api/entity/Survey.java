@@ -3,6 +3,7 @@ package com.flexform.api.entity;
 import com.flexform.api.dto.SurveyDto;
 import com.flexform.api.entity.common.BaseEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @Getter
 @Setter
 @Entity
@@ -44,14 +45,10 @@ public class Survey extends BaseEntity{
                 .badge(this.badge)
                 .labelColor(this.labelColor)
                 .workspace(this.workspace.toDto())
-                .build();
-    }
-
-    @Override
-    protected Survey clone() throws CloneNotSupportedException {
-        super.clone();
-        return Survey.builder()
-
+                .createBy(this.createBy)
+                .updateBy(this.updateBy)
+                .createDate(this.createdDate)
+                .updateDate(this.updateDate)
                 .build();
     }
 
@@ -61,6 +58,10 @@ public class Survey extends BaseEntity{
                 .badge(surveyDto.getBadge())
                 .labelColor(surveyDto.getLabelColor())
                 .workspace(Workspace.of(surveyDto.getWorkspace()))
+                .createBy(surveyDto.getCreateBy())
+                .updateBy(surveyDto.getUpdateBy())
+                .createdDate(surveyDto.getCreateDate())
+                .updateDate(surveyDto.getUpdateDate())
                 .build();
     }
 
