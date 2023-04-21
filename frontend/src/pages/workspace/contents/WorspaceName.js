@@ -1,10 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Skeleton, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
-import { updateWorkspaceItem } from 'hooks/workspace/WorkspaceItemsActions';
-import { deleteWorkspaceItem } from 'hooks/workspace/WorkspaceItemsActions';
 import useAxios from 'hooks/axios/UseAxios';
 import { toSnakeCase } from 'util/ConvertConvention';
 
@@ -29,8 +27,9 @@ const WorkspaceNameInput = styled.textarea`
   border-right: 0;
   border: 1px solid white;
   box-sizing: border-box;
-  overflow: hidden;
   resize: none;
+  overflow: hidden;
+  white-space: nowrap;
   &:focus {
     border: 2px solid #4096ff;
     background-color: rgba(0, 0, 0, 0.01);
@@ -90,10 +89,15 @@ const WorspaceName = ({
   const [_, patchExcute] = useAxios({ url, method: patchMethod }, { menual: true });
   const [__, deleteExcute] = useAxios({ url, method: deleteMethod }, { menual: true });
 
+  const workspaceNameOrUndefined = currentWorkspace?.workspaceName;
+  const [workspaceName, setWorkspaceName] = useState(workspaceNameOrUndefined);
+  useEffect(() => {
+    if (workspaceNameOrUndefined) setWorkspaceName(workspaceNameOrUndefined);
+  }, [workspaceNameOrUndefined]);
+
   const onBlurWorkspaceNameInput = async e => {
-    const worksapceTextValue = e.target.value;
-    if (worksapceTextValue === '' || worksapceTextValue.length > 20) {
-      alert('빈값, 20글자 이상의 workspace name을 지정할 수 없음.');
+    if (workspaceName === '' || workspaceName.length > 50) {
+      alert('빈값, 50글자 이상의 workspace name을 지정할 수 없음.');
 
       workspaceNameInputRef.current.value = workspaces.find(
         workspace => workspace.workspaceId === currentWorkspace.workspaceId,
@@ -103,7 +107,7 @@ const WorspaceName = ({
 
     const updatedWorksapceItem = {
       ...currentWorkspace,
-      workspaceName: worksapceTextValue,
+      workspaceName,
     };
 
     currentWorkspaceDispatch(changeCurrentWorkspace(updatedWorksapceItem));
@@ -127,14 +131,7 @@ const WorspaceName = ({
   };
 
   const onChangeWorkspaceInput = e => {
-    const worksapceTextValue = e.target.value;
-
-    const newWorksapceItem = {
-      ...currentWorkspace,
-      workspaceName: worksapceTextValue,
-    };
-
-    currentWorkspaceDispatch(changeCurrentWorkspace(newWorksapceItem));
+    setWorkspaceName(e.target.value);
   };
 
   return (
@@ -148,7 +145,7 @@ const WorspaceName = ({
           <>
             <WorkspaceNameInput
               ref={workspaceNameInputRef}
-              value={currentWorkspace?.workspaceName}
+              value={workspaceName}
               onChange={onChangeWorkspaceInput}
               onBlur={onBlurWorkspaceNameInput}
               onKeyDown={keyDownWorkspaceInput}

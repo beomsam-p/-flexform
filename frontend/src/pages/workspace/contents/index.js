@@ -8,6 +8,7 @@ const WorkspaceContentContainer = styled.div`
   grid-template-rows: 0fr auto;
   padding: 36px 50px;
   overflow-y: auto;
+  background-color: rgba(200, 200, 200, 0.06);
 `;
 
 const WorspaceContent = ({ children }) => {
