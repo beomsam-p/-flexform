@@ -9,7 +9,6 @@ import WrokspaceSnbTitle from 'pages/workspace/snb/WrokspaceSnbTitle';
 import WorksapceContent from 'pages/workspace/contents';
 import WorspaceName from 'pages/workspace/contents/WorspaceName';
 import Thumbnails from './contents/Thumbnails';
-import DefaultThumbnail from './contents/DefaultThumbnail';
 
 import useAxios from 'hooks/axios/UseAxios';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
@@ -58,9 +57,7 @@ const Workspace = () => {
       </WorkspaceSnb>
       <WorksapceContent>
         <WorspaceName {...workspaceSnbProps} />
-        <Thumbnails>
-          <DefaultThumbnail />
-        </Thumbnails>
+        <Thumbnails {...workspaceSnbProps}></Thumbnails>
       </WorksapceContent>
     </Container>
   );
