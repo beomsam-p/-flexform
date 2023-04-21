@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -57,7 +58,7 @@ public class WorkspaceController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/workspaces")
-    public ResponseEntity<ResponseContainer> addWorkspace(@RequestBody WorkspaceDto workspaceDto) {
+    public ResponseEntity<ResponseContainer> addWorkspace(@RequestBody @Valid WorkspaceDto workspaceDto) {
         UserDto loginUser = userService.getLoginUser();
         WorkspaceDto insertedWorkspace = workspaceService.addWorkspace(workspaceDto, loginUser);
         return ResponseEntity.ok().body(ResponseContainer.builder()
@@ -71,7 +72,7 @@ public class WorkspaceController {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/workspaces/{workspaceId}")
-    public ResponseEntity<ResponseContainer> updateWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId, @RequestBody WorkspaceDto workspaceDto) {
+    public ResponseEntity<ResponseContainer> updateWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId, @RequestBody @Valid WorkspaceDto workspaceDto) {
         UserDto loginUser = userService.getLoginUser();
         workspaceDto.setWorkspaceId(workspaceId);
         WorkspaceDto updatedWorkspace = workspaceService.updateWorkspace(workspaceDto, loginUser);

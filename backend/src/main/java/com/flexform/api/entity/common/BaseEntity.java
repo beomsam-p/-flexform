@@ -26,6 +26,14 @@ public abstract class BaseEntity {
     @Column(name = "update_by", columnDefinition = "BINARY(16)" , nullable = false)
     protected UUID updateBy;
 
+    @PrePersist
+    protected void onPrePersist() {
+        if (this.createdDate == null) {
+            this.createdDate = LocalDateTime.now();
+        }
 
-
+        if (this.updateDate == null) {
+            this.updateDate = LocalDateTime.now();
+        }
+    }
 }

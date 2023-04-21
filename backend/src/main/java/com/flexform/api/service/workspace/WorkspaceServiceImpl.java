@@ -32,7 +32,8 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public List<WorkspaceDto> getWorkspaces(UserDto loginUser) {
-        final List<Workspace> workspaces = workspaceRepository.findWorkspacesByUserId(loginUser.getUserId());
+        final UserDto user = userService.findUser(loginUser);
+        final List<Workspace> workspaces = workspaceRepository.findWorkspacesByUserId(user.getUserId());
         return workspaces.stream()
                 .map(Workspace::toDto)
                 .collect(Collectors.toList());
@@ -40,9 +41,10 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public WorkspaceDto addWorkspace(WorkspaceDto workspaceDto, UserDto loginUser) {
-        workspaceDto.setUser(loginUser);
-        workspaceDto.setCreateBy(loginUser.getUserId());
-        workspaceDto.setUpdateBy(loginUser.getUserId());
+        final UserDto user = userService.findUser(loginUser);
+        workspaceDto.setUser(user);
+        workspaceDto.setCreateBy(user.getUserId());
+        workspaceDto.setUpdateBy(user.getUserId());
         Workspace workspace = Workspace.of(workspaceDto);
         return workspaceRepository
                 .save(workspace)
@@ -52,36 +54,24 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     @Override
     @Transactional
     public WorkspaceDto updateWorkspace(WorkspaceDto workspaceDto, UserDto loginUser) {
-        Workspace workspace = findWorkspace(workspaceDto.getWorkspaceId(), loginUser.getUserId());
-        validUser(loginUser, workspace);
-
-        workspaceDto.setUser(loginUser);
-        workspaceDto.setUpdateBy(loginUser.getUserId());
-
+        final UserDto user = userService.findUser(loginUser);
+        Workspace workspace = findWorkspace(workspaceDto.getWorkspaceId(), user.getUserId());
         workspace.setWorkspaceName(workspaceDto.getWorkspaceName());
         workspace.setWorkspaceOrder(workspaceDto.getWorkspaceOrder());
         workspace.setUpdateDate(LocalDateTime.now());
-
         return workspace.toDto();
     }
 
     @Override
     public WorkspaceDto deleteWorkspace(UUID workspaceId, UserDto loginUser) {
-        Workspace workspace = findWorkspace(workspaceId, loginUser.getUserId());
-        validUser(loginUser, workspace);
+        final UserDto user = userService.findUser(loginUser);
+        Workspace workspace = findWorkspace(workspaceId, user.getUserId());
         workspaceRepository.delete(workspace);
         return workspace.toDto();
     }
 
     private Workspace findWorkspace(UUID workspaceId, UUID userId) {
         return workspaceRepository.findWorkspaceById(workspaceId, userId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId));
-    }
-
-    private void validUser(UserDto loginUser, Workspace workspace) {
-        if (loginUser.getUserId().equals(workspace.getUser().getUserId())) {
-            return;
-        }
-        throw new IllegalArgumentException("해당 Workspace 에 대한 변경 권한이 없음.");
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않는 아이디:" + workspaceId));
     }
 }

@@ -47,16 +47,9 @@ public class Workspace extends BaseEntity {
     private List<Survey> surveyList;
 
 
-    @PrePersist
-    protected void onPrePersist() {
-        if (this.createdDate == null) {
-            this.createdDate = LocalDateTime.now();
-        }
-
-        if (this.updateDate == null) {
-            this.updateDate = LocalDateTime.now();
-        }
-
+    @Override
+    public void onPrePersist() {
+        super.onPrePersist();
         if (this.deletable == null) {
             this.deletable = true;
         }
@@ -86,6 +79,5 @@ public class Workspace extends BaseEntity {
                 .user(User.of(workspaceDto.getUser()))
                 .build();
     }
-
 }
 
