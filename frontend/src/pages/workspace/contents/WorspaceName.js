@@ -22,21 +22,21 @@ const WorkspaceNameInput = styled.textarea`
   padding: 7px 11px;
   font-size: 32px;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--font-color-default);
   border-radius: 14px;
   border-right: 0;
-  border: 1px solid white;
+  border: 1px solid var(--border-color-white);
   box-sizing: border-box;
   resize: none;
   overflow: hidden;
   white-space: nowrap;
   &:focus {
-    border: 2px solid #4096ff;
-    background-color: rgba(0, 0, 0, 0.01);
+    border: 2px solid var(--primary-color);
+    background-color: var(--backgound-color-light-gray);
     outline: none;
   }
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--backgound-color-light-gray);
     outline: none;
   }
 `;
@@ -48,15 +48,15 @@ const WorkspaceDeleteButton = styled(Button)`
   align-items: center;
   height: 40px;
   margin-left: 10px;
-  border: 2px solid rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--border-color-gray);
   z-index: 0;
 
   &.ant-btn {
     font-size: 17px;
-    color: rgba(0, 0, 0, 0.8);
+    color: var(--border-color-dark-gray);
     width: 40px;
     &:hover {
-      border: 2px solid #4096ff;
+      border: 2px solid var(--border-color-hover);
     }
     z-index: 0;
   }
@@ -102,6 +102,10 @@ const WorspaceName = ({
       workspaceNameInputRef.current.value = workspaces.find(
         workspace => workspace.workspaceId === currentWorkspace.workspaceId,
       ).workspaceName;
+      return;
+    }
+
+    if (workspaceName === currentWorkspace.workspaceName) {
       return;
     }
 

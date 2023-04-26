@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThumbnailContainer } from './ThumbnailCss';
+import { ThumbnailContainer } from '../../../components/CommonCss';
 import styled from 'styled-components';
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -37,7 +37,7 @@ const MoreButton = styled(Button)`
   &.ant-btn {
     border-radius: 20px;
     border: 0;
-    background-color: rgba(0, 0, 0, 0.02);
+    background-color: var(--backgound-color-light-gray);
   }
   & svg {
     transform: rotate(90deg);
@@ -51,7 +51,7 @@ const ThumbnailBody = styled.div`
 
 const SurveyName = styled.div`
   font-size: 20px;
-  color: rgba(0, 0, 0, 0.8);
+  color: var(--font-color-default);
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -66,14 +66,14 @@ const ThumbnailTail = styled.div`
 
 const ResponseCount = styled.div`
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--font-color-light-gray);
   width: 100%;
   margin-bottom: 10px;
 `;
 
 const UpdateDate = styled.div`
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--font-color-light-gray);
   width: 100%;
   text-align: right;
 `;

@@ -9,7 +9,7 @@ const AccordionMenu = styled(Menu)`
   }
 
   &.ant-menu-light.ant-menu-inline .ant-menu-sub.ant-menu-inline {
-    background: white;
+    background: var(--backgound-color-white);
   }
 `;
 

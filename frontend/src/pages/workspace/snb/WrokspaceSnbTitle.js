@@ -11,7 +11,7 @@ const TitleBtnTooltip = styled(Tooltip)`
   margin-left: 8px;
 `;
 const Container = styled.div`
-  background-color: white;
+  background-color: var(--backgound-color-white);
   padding: 15px 10px 10px 23px;
   display: flex;
   flex-direction: row;
@@ -21,7 +21,7 @@ const Container = styled.div`
 
 const TitleText = styled.div`
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--font-color-default);
   font-weight: bold;
   display: flex;
   flex-direction: row;

@@ -3,8 +3,8 @@ import { Menu, Skeleton } from 'antd';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
 
 const Container = styled.div`
-  border-top: 1px solid #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
+  border-top: 1px solid var(--border-color-light-gray);
+  border-bottom: 1px solid var(--border-color-light-gray);
   overflow-y: auto;
   background-color: white;
 `;

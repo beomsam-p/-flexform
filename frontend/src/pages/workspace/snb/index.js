@@ -7,7 +7,7 @@ const WorkspaceSnbContainer = styled.div`
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
-  border-right: 1px solid #f5f5f5;
+  border-right: 1px solid var(--border-color-light-gray);
 `;
 
 const WorkspaceSnb = ({ children }) => {
