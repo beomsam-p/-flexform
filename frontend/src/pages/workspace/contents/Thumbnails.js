@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DefaultThumbnail from './DefaultThumbnail';
 import Thumbnail from './Thumbnail';
 import { useQuery } from 'react-query';
-import axios from 'axios';
-import { toCamelCase } from 'util/ConvertConvention';
-import useAxios from 'hooks/axios/UseAxios';
+import callAxios from 'api/ApiCaller';
 
 const ThumbnailsContainer = styled.div`
   padding: 35px 11px;
@@ -16,18 +14,24 @@ const ThumbnailsContainer = styled.div`
 `;
 
 const Thumbnails = ({ currentWorkspace, currentWorkspaceDispatch }) => {
-  const url = `/v1/workspaces/${currentWorkspace?.workspaceId}/surveys`;
-  const method = 'get';
-  const [{ response: surveys, isLoading, isError }, refetch] = useAxios({ url, method }, { menual: true });
-  useEffect(() => {
-    refetch();
-  }, [currentWorkspace]);
+  const workspaceId = currentWorkspace?.workspaceId;
 
-  console.log(surveys);
+  const url = `/v1/workspaces/${workspaceId}/surveys`;
+  const method = 'get';
+  const { data, isLoading, isError } = useQuery(['surveys', workspaceId], () => callAxios({ url, method }), {
+    enabled: !!workspaceId,
+    refetchOnWindowFocus: false,
+  });
+
+  useEffect(() => {
+    if (data) setSuerveys(data);
+  }, [data]);
+
+  const [surveys, setSuerveys] = useState([]);
   return (
     <ThumbnailsContainer>
       <DefaultThumbnail />
-      {surveys && surveys?.map(survey => <Thumbnail key={survey.surveyId} {...survey} />)}
+      {!isLoading && surveys.map(survey => <Thumbnail key={survey.surveyId} {...survey} />)}
     </ThumbnailsContainer>
   );
 };

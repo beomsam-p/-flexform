@@ -17,7 +17,8 @@ import { handleApiException } from 'exception/ApiException';
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    onError: handleApiException,
+    //onError: handleApiException,
+    //refetchOnWindowFocus: false,
   },
 });
 

@@ -1,7 +1,12 @@
-export const handleApiException = ({ response: { data: errorResponse } }) => {
+export const handleApiException = e => {
+  const {
+    response: { data: errorResponse },
+  } = e;
+
   const {
     status: { code, message },
   } = errorResponse;
+
   switch (code) {
     case 400:
       console.error(`code:${code}, ${message}`);

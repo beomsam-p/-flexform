@@ -21,6 +21,7 @@ const useAxios = ({ url, method, body, headers }, { isCamelResponse = true, menu
       setLoading(false);
     }
   };
+
   useEffect(() => {
     !menual && excution(body);
   }, []);
