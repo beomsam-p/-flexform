@@ -54,8 +54,6 @@ public class WorkspaceController {
     }
 
 
-
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/workspaces")
     public ResponseEntity<ResponseContainer> addWorkspace(@RequestBody @Valid WorkspaceDto workspaceDto) {
