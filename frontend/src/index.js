@@ -13,7 +13,6 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import axios from 'axios';
-import { handleApiException } from 'exception/ApiException';
 
 const queryClient = new QueryClient({
   defaultOptions: {

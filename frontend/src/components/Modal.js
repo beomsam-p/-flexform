@@ -17,10 +17,9 @@ const Dim = styled.div`
 const ModalContainer = styled.div`
   display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
   position: fixed;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  ${props => console.log(props)};
   width: ${({ modal_withd }) => modal_withd};
   height: ${({ modal_height }) => modal_height};
   background-color: white;
@@ -47,7 +46,6 @@ const ModalTail = styled.div`
 `;
 
 const Modal = ({ isOpen, onSubmit, onCancle, title, body, tail, size = { width: '300px', height: '200px' } }) => {
-  console.log(size);
   return (
     <>
       <Dim isOpen={isOpen} onClick={onCancle}></Dim>
