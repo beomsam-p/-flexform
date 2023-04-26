@@ -1,5 +1,5 @@
 import React from 'react';
-import { ThumbnailContainer } from '../../../components/CommonCss';
+import { Badge, Label, BoxContainer, LabelContainer } from '../../../components/CommonCss';
 import styled from 'styled-components';
 import { MoreOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
@@ -20,19 +20,6 @@ const ThumbnailHead = styled.div`
   margin-bottom: 10px;
 `;
 
-const Label = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  background-color: ${({ labelColor }) => labelColor};
-  width: 40px;
-  height: 40px;
-  border-radius: 40px;
-`;
-const Badge = styled.div`
-  font-size: 29px;
-`;
 const MoreButton = styled(Button)`
   &.ant-btn {
     border-radius: 20px;
@@ -82,12 +69,14 @@ const Thumbnail = ({ badge, labelColor, surveyId, surveyName, updateDate, respon
   const date = new Date(updateDate);
   const formattedDate = date.toLocaleDateString('ko-KR').replace(/\.\s/g, '.');
   return (
-    <ThumbnailContainer>
+    <BoxContainer>
       <ThumbnailContent>
         <ThumbnailHead>
-          <Label labelColor={labelColor}>
-            <Badge>{badge}</Badge>
-          </Label>
+          <LabelContainer>
+            <Label labelColor={labelColor}>
+              <Badge>{badge}</Badge>
+            </Label>
+          </LabelContainer>
           <MoreButton icon={<MoreOutlined />} size={'small'} />
         </ThumbnailHead>
         <ThumbnailBody>
@@ -98,7 +87,7 @@ const Thumbnail = ({ badge, labelColor, surveyId, surveyName, updateDate, respon
           <UpdateDate>{formattedDate}</UpdateDate>
         </ThumbnailTail>
       </ThumbnailContent>
-    </ThumbnailContainer>
+    </BoxContainer>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PlusCircleFilled } from '@ant-design/icons';
-import { ThumbnailContainer } from '../../../components/CommonCss';
+import { BoxContainer } from '../../../components/CommonCss';
 import { useQuery } from 'react-query';
 import callAxios from 'api/ApiCaller';
 import Modal from 'components/Modal';
@@ -43,7 +43,7 @@ const DefaultThumbnail = ({ currentWorkspace }) => {
     <>
       <Modal
         title={'새로운 설문 폼 만들기'}
-        body={<AddSurveyForm />}
+        body={<AddSurveyForm isOpen={isOpen} />}
         isOpen={isOpen}
         onSubmit={() => {
           console.log('submit');
@@ -51,9 +51,9 @@ const DefaultThumbnail = ({ currentWorkspace }) => {
         onCancle={toggleModal}
         size={{ width: '650px', height: 'auto' }}
       />
-      <ThumbnailContainer>
+      <BoxContainer>
         <SurveyThumbnailAddButton onClick={onSurveyBtnClick} />
-      </ThumbnailContainer>
+      </BoxContainer>
     </>
   );
 };

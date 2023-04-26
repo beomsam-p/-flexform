@@ -5,6 +5,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions';
 import useAxios from 'hooks/axios/UseAxios';
 import { toSnakeCase } from 'util/ConvertConvention';
+import { InputCss } from 'components/CommonCss';
 
 const WorkspaceNameContainer = styled.div`
   width: 100%;
@@ -22,23 +23,7 @@ const WorkspaceNameInput = styled.textarea`
   padding: 7px 11px;
   font-size: 32px;
   font-weight: bold;
-  color: var(--font-color-default);
-  border-radius: 14px;
-  border-right: 0;
-  border: 1px solid var(--border-color-white);
-  box-sizing: border-box;
-  resize: none;
-  overflow: hidden;
-  white-space: nowrap;
-  &:focus {
-    border: 2px solid var(--primary-color);
-    background-color: var(--backgound-color-light-gray);
-    outline: none;
-  }
-  &:hover {
-    background-color: var(--backgound-color-light-gray);
-    outline: none;
-  }
+  ${InputCss}
 `;
 
 const WorkspaceDeleteButton = styled(Button)`

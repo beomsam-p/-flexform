@@ -9,11 +9,11 @@ const ThumbnailsContainer = styled.div`
   padding: 35px 11px;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fill, 270px);
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
   grid-auto-rows: 150px;
 `;
 
-const Thumbnails = ({ currentWorkspace, currentWorkspaceDispatch }) => {
+const Thumbnails = ({ currentWorkspace }) => {
   const workspaceId = currentWorkspace?.workspaceId;
 
   const url = `/v1/workspaces/${workspaceId}/surveys`;
