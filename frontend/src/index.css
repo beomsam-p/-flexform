@@ -8,10 +8,35 @@ body {
   overflow: auto;
 }
 
-#root {
+:root {
   height: 100%;
   margin: 0;
   padding: 0;
+
+  /*common-color*/
+  --primary-color: #4096f1;
+
+  
+  /*backgound-color*/
+  --backgound-color-default: rgba(253, 253, 253);
+  --backgound-color-dark-gray: rgba(50, 50, 50);
+  --backgound-color-light-gray: rgba(244, 244, 244);
+  --backgound-color-white: rgba(255, 255, 255);
+
+  /*font-color*/
+  --font-color-default : rgba(30, 30, 30);
+  --font-color-gray : rgba(100, 100, 100);
+  --font-color-light-gray : rgba(190, 190, 190);
+  --font-color-light-primary : #4096f1;
+
+
+  /*border-color*/
+  --border-color-hover: #4096f1;
+  --border-color-dark-gray: rgba(150, 150, 150);
+  --border-color-gray: rgba(214, 214, 214);
+  --border-color-light-gray: rgba(240, 240, 240);
+  --border-color-white: #ffffff;
+
 }
 
 *::-webkit-scrollbar {
