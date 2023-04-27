@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PlusCircleFilled } from '@ant-design/icons';
 import { BoxContainer } from '../../../components/CommonCss';
-import { useQuery } from 'react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
 import callAxios from 'api/ApiCaller';
 import Modal from 'components/Modal';
-import AddSurveyForm from './AddSurveyForm';
+import SurveyForm from './modal/SurveyForm';
+import { toSnakeCase } from 'util/ConvertConvention';
 
 const SurveyThumbnailAddButton = styled(PlusCircleFilled)`
   font-size: 50px;
@@ -20,41 +21,70 @@ const SurveyThumbnailAddButton = styled(PlusCircleFilled)`
   color: var(--font-color-light-gray);
 `;
 
-const DefaultThumbnail = ({ currentWorkspace }) => {
-  const workspaceId = currentWorkspace?.workspaceId;
-  const url = `/v1/workspaces/${workspaceId}/surveys`;
-  const method = 'post';
-  const { data, isLoading, isError, refetch } = useQuery(['survey', workspaceId], () => callAxios({ url, method }), {
-    enabled: false,
-    refetchOnWindowFocus: false,
+const DefaultThumbnail = ({ workspaceId, surveys }) => {
+  const queryClient = useQueryClient();
+
+  const surveysUrl = `/v1/workspaces/${workspaceId}/surveys`;
+  const postMethod = 'post';
+  const { mutate } = useMutation({
+    mutationFn: survey => callAxios({ url: surveysUrl, method: postMethod, body: survey }),
+    onSuccess: data => {
+      console.log(data);
+      queryClient.setQueryData(['surveys', workspaceId], [...surveys, data]);
+      toggleModal();
+    },
   });
 
-  const [isOpen, setOpen] = useState(false);
+  const labelColursUrl = '/v1/label-colors';
+  const getMethod = 'get';
+  const { data: labelColors, isLoading } = useQuery(
+    ['labelColors'],
+    () => callAxios({ url: labelColursUrl, method: getMethod }),
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
 
-  const toggleModal = e => {
+  const [isOpen, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isOpenEmojiPicker, setOpenEmojiPicker] = useState(false);
+  const [emoji, setEmoji] = useState('😃');
+  const [surveyName, setSurveyName] = useState('');
+
+  const toggleModal = () => {
     setOpen(!isOpen);
   };
 
-  const onSurveyBtnClick = () => {
+  const onClickOpenSurveyForm = () => {
     toggleModal();
   };
 
+  const onClickAddSurvey = async () => {
+    const labelColor = labelColors[selectedIndex].colorCode;
+    const badge = emoji;
+    const survey = toSnakeCase({
+      labelColor,
+      badge,
+      surveyName,
+    });
+    console.log(survey);
+    await mutate(survey);
+  };
+
+  const states = { isOpen, isLoading, labelColors, selectedIndex, isOpenEmojiPicker, emoji, surveyName };
+  const setStates = { setSelectedIndex, setOpenEmojiPicker, setEmoji, setSurveyName };
   return (
-    <>
+    <BoxContainer>
       <Modal
         title={'새로운 설문 폼 만들기'}
-        body={<AddSurveyForm isOpen={isOpen} />}
+        body={<SurveyForm {...states} {...setStates} />}
         isOpen={isOpen}
-        onSubmit={() => {
-          console.log('submit');
-        }}
+        onSubmit={onClickAddSurvey}
         onCancle={toggleModal}
         size={{ width: '650px', height: 'auto' }}
       />
-      <BoxContainer>
-        <SurveyThumbnailAddButton onClick={onSurveyBtnClick} />
-      </BoxContainer>
-    </>
+      <SurveyThumbnailAddButton onClick={onClickOpenSurveyForm} />
+    </BoxContainer>
   );
 };
 

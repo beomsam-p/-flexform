@@ -71,8 +71,8 @@ const WorspaceName = ({
   const url = `/v1/workspaces/${currentWorkspace?.workspaceId}`;
   const patchMethod = 'patch';
   const deleteMethod = 'delete';
-  const [_, patchExcute] = useAxios({ url, method: patchMethod }, { menual: true });
-  const [__, deleteExcute] = useAxios({ url, method: deleteMethod }, { menual: true });
+  const [, patchExcute] = useAxios({ url, method: patchMethod }, { menual: true });
+  const [, deleteExcute] = useAxios({ url, method: deleteMethod }, { menual: true });
 
   const workspaceNameOrUndefined = currentWorkspace?.workspaceName;
   const [workspaceName, setWorkspaceName] = useState(workspaceNameOrUndefined);

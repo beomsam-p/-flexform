@@ -15,23 +15,25 @@ const ThumbnailsContainer = styled.div`
 
 const Thumbnails = ({ currentWorkspace }) => {
   const workspaceId = currentWorkspace?.workspaceId;
-
   const url = `/v1/workspaces/${workspaceId}/surveys`;
+  const enabled = !!workspaceId;
   const method = 'get';
-  const { data, isLoading, isError } = useQuery(['surveys', workspaceId], () => callAxios({ url, method }), {
-    enabled: !!workspaceId,
+  const { data: surveys, isLoading } = useQuery(['surveys', workspaceId], () => callAxios({ url, method }), {
+    enabled,
     refetchOnWindowFocus: false,
   });
+  const isWait = !enabled || isLoading;
+  // useEffect(() => {
+  //   if (data) setSuerveys(data);
+  // }, [data]);
 
-  useEffect(() => {
-    if (data) setSuerveys(data);
-  }, [data]);
+  // const [surveys, setSuerveys] = useState([]);
+  console.log(surveys);
 
-  const [surveys, setSuerveys] = useState([]);
   return (
     <ThumbnailsContainer>
-      <DefaultThumbnail />
-      {!isLoading && surveys.map(survey => <Thumbnail key={survey.surveyId} {...survey} />)}
+      <DefaultThumbnail workspaceId={workspaceId} surveys={surveys} />
+      {!isWait && surveys.map(survey => <Thumbnail key={survey.surveyId} {...survey} />)}
     </ThumbnailsContainer>
   );
 };
