@@ -26,6 +26,7 @@ public class SurveyDto {
     private String surveyName;
 
     private Integer responseCount;
+
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private UUID createBy;
@@ -33,4 +34,5 @@ public class SurveyDto {
 
     //@JsonIgnore
     private WorkspaceDto workspace;
+
 }

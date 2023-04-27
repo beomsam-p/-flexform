@@ -4,7 +4,6 @@ import com.flexform.api.dto.ResponseContainer;
 import com.flexform.api.dto.StatusDto;
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.dto.WorkspaceDto;
-import com.flexform.api.entity.Workspace;
 import com.flexform.api.service.user.UserService;
 import com.flexform.api.service.workspace.WorkspaceService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class WorkspaceController {
     @GetMapping("/workspaces")
     public ResponseEntity<ResponseContainer> getWorkspaces() {
         UserDto loginUser = userService.getLoginUser();
-        final List<WorkspaceDto> workspaces = workspaceService.getWorkspaces(loginUser);
+        final List<WorkspaceDto> workspaces = workspaceService.getWorkspaceDtoList(loginUser);
         return ResponseEntity.ok().body(ResponseContainer.builder()
                 .status(StatusDto.builder()
                         .code(HttpStatus.OK.value())
@@ -43,7 +42,7 @@ public class WorkspaceController {
     @GetMapping("/workspaces/{workspaceId}")
     public ResponseEntity<ResponseContainer> getWorkspace(@PathVariable(name = "workspaceId") UUID workspaceId) {
         UserDto loginUser = userService.getLoginUser();
-        WorkspaceDto deletedWorkspace = workspaceService.getWorkspace(workspaceId, loginUser);
+        WorkspaceDto deletedWorkspace = workspaceService.getWorkspaceDto(workspaceId, loginUser);
         return ResponseEntity.ok().body(ResponseContainer.builder()
                 .status(StatusDto.builder()
                         .code(HttpStatus.OK.value())

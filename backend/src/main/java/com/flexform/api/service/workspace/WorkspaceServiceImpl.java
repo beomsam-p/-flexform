@@ -2,6 +2,7 @@ package com.flexform.api.service.workspace;
 
 import com.flexform.api.dto.UserDto;
 import com.flexform.api.dto.WorkspaceDto;
+import com.flexform.api.entity.User;
 import com.flexform.api.entity.Workspace;
 import com.flexform.api.repository.WorkspaceRepository;
 import com.flexform.api.service.user.UserService;
@@ -23,15 +24,20 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceRepository workspaceRepository;
 
     @Override
-    public WorkspaceDto getWorkspace(UUID workspaceId, UserDto loginUser) {
+    public WorkspaceDto getWorkspaceDto(UUID workspaceId, UserDto loginUser) {
         final UserDto user = userService.findUser(loginUser);
-        return workspaceRepository.findWorkspaceById(workspaceId, user.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId))
-                .toDto();
+        return this.getWorkspace(workspaceId, loginUser).toDto();
     }
 
     @Override
-    public List<WorkspaceDto> getWorkspaces(UserDto loginUser) {
+    public Workspace getWorkspace(UUID workspaceId, UserDto user) {
+        return  workspaceRepository.findWorkspaceById(workspaceId, user.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 아이디:" + workspaceId));
+    }
+
+
+    @Override
+    public List<WorkspaceDto> getWorkspaceDtoList(UserDto loginUser) {
         final UserDto user = userService.findUser(loginUser);
         final List<Workspace> workspaces = workspaceRepository.findWorkspacesByUserId(user.getUserId());
         return workspaces.stream()

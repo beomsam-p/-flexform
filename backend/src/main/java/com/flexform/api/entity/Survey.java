@@ -59,10 +59,10 @@ public class Survey extends BaseEntity{
     public static Survey of(SurveyDto surveyDto){
         return Survey.builder()
                 .surveyId(surveyDto.getSurveyId())
+                .surveyName(surveyDto.getSurveyName())
                 .badge(surveyDto.getBadge())
                 .labelColor(surveyDto.getLabelColor())
                 .responseCount(surveyDto.getResponseCount())
-                .workspace(Workspace.of(surveyDto.getWorkspace()))
                 .createBy(surveyDto.getCreateBy())
                 .updateBy(surveyDto.getUpdateBy())
                 .createdDate(surveyDto.getCreateDate())

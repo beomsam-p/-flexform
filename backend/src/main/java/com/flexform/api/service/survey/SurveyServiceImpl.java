@@ -37,11 +37,11 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public SurveyDto addSurvey(SurveyDto surveyDto, UUID workspaceId, UserDto loginUser) {
         UserDto user = userService.findUser(loginUser);
-        WorkspaceDto workspaceDto = workspaceService.getWorkspace(workspaceId, loginUser);
-        surveyDto.setWorkspace(workspaceDto);
+        Workspace workspace = workspaceService.getWorkspace(workspaceId, loginUser);
         surveyDto.setCreateBy(user.getUserId());
         surveyDto.setUpdateBy(user.getUserId());
         Survey survey = Survey.of(surveyDto);
+        survey.setWorkspace(workspace);
         return surveyRepository.save(survey).toDto();
     }
 
@@ -70,7 +70,7 @@ public class SurveyServiceImpl implements SurveyService {
     public SurveyDto moveWorkspace(UUID surveyId, UUID toWorkspaceId, UserDto loginUser) {
         UserDto user = userService.findUser(loginUser);
         Survey survey = this.findSurvey(surveyId, user.getUserId());
-        WorkspaceDto toWorkspaceDto = workspaceService.getWorkspace(toWorkspaceId, loginUser);
+        WorkspaceDto toWorkspaceDto = workspaceService.getWorkspaceDto(toWorkspaceId, loginUser);
         survey.setWorkspace(Workspace.of(toWorkspaceDto));
         return survey.toDto();
     }
