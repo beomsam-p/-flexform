@@ -24,7 +24,7 @@ public class DefaultUserBaseTest {
     protected UserDto loginUser;
 
     @BeforeEach
-    void init() {
+    protected void userInit() {
         Optional<User> foundUser = userRepository.findByEmail("admin@flexfrom.com");
         loginUser = foundUser.map(User::toDto)
                 .orElseGet(this::saveDefaultUser);

@@ -31,8 +31,10 @@ class SurveyRepositoryTest extends DefaultUserBaseTest {
 
     private Workspace savedWorkspace;
 
+
     @BeforeEach
-    void init() {
+    void surveyInit() {
+        super.userInit();
         //given
         final UUID userId = UUID.randomUUID();
         final LocalDateTime now = LocalDateTime.now();
