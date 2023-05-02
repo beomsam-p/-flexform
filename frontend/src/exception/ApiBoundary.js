@@ -1,4 +1,4 @@
-export const handleApiException = e => {
+export const apiErrorBoundary = e => {
   const {
     response: { data: errorResponse },
   } = e;
@@ -15,6 +15,6 @@ export const handleApiException = e => {
       console.error(`code:${code}, ${message}`);
       break;
     default:
-      console.error('알 수 없는 에러 발생');
+      console.error(`알 수 없는 에러 발생 code:${code}, ${message}`);
   }
 };
