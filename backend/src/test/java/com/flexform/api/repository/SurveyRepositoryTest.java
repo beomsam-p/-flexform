@@ -5,6 +5,7 @@ import com.flexform.api.dto.UserDto;
 import com.flexform.api.entity.Survey;
 import com.flexform.api.entity.User;
 import com.flexform.api.entity.Workspace;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -73,5 +74,11 @@ class SurveyRepositoryTest extends DefaultUserBaseTest {
         }
         List<Survey> saveList = surveyRepository.saveAll(surveys);
         assertThat(saveList.size()).isEqualTo(5);
+    }
+
+    @AfterEach
+    void removeAll(){
+        surveyRepository.deleteAll();
+        workspaceRepository.deleteAll();
     }
 }

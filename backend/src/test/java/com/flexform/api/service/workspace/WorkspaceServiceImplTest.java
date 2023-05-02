@@ -2,6 +2,7 @@ package com.flexform.api.service.workspace;
 
 import com.flexform.api.DefaultUserBaseTest;
 import com.flexform.api.dto.WorkspaceDto;
+import com.flexform.api.repository.WorkspaceRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.*;
@@ -15,9 +16,12 @@ import static org.assertj.core.api.Assertions.assertThatException;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class WorkspaceServiceImplTestDefaultUser extends DefaultUserBaseTest {
+class WorkspaceServiceImplTest extends DefaultUserBaseTest {
     @Autowired
     private WorkspaceServiceImpl workspaceService;
+
+    @Autowired
+    private WorkspaceRepository workspaceRepository;
 
     @Test
     @DisplayName("workspace 추가 성공")
@@ -99,5 +103,8 @@ class WorkspaceServiceImplTestDefaultUser extends DefaultUserBaseTest {
      * 3. 수정일이 생성된 날보다 이후여야 한다.
      */
 
-
+    @AfterEach
+    void removeAll(){
+        workspaceRepository.deleteAll();
+    }
 }

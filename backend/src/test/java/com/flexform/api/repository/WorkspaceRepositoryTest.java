@@ -23,14 +23,12 @@ class WorkspaceRepositoryTest extends DefaultUserBaseTest {
     @Autowired
     private WorkspaceRepository workspaceRepository;
 
-    @Autowired
-    private UserService userService;
 
     @Test
     @DisplayName("Sample Workspace 를 저장한다")
     void insertWorkspace() {
         //given
-        final UUID userId = UUID.randomUUID();
+        final UUID userId = super.loginUser.getUserId();
         final LocalDateTime now = LocalDateTime.now();
         final Workspace workspace = Workspace.builder()
                 .workspaceName("Workspace1")
@@ -40,6 +38,7 @@ class WorkspaceRepositoryTest extends DefaultUserBaseTest {
                 .updateDate(now)
                 .createBy(userId)
                 .updateBy(userId)
+                .user(User.of(super.loginUser))
                 .build();
 
         //when
@@ -55,30 +54,31 @@ class WorkspaceRepositoryTest extends DefaultUserBaseTest {
     @DisplayName("워크스페이스를 조회한다.")
     void findWorkspaceByUser() {
         //given
-        final UserDto userDto = this.userService.getLoginUser();
-        final UserDto joinedUser = this.userService.joinUser(userDto);
-        final UUID userId = UUID.randomUUID();
+        final UUID userId = super.loginUser.getUserId();
         final LocalDateTime now = LocalDateTime.now();
-        final List<Workspace> workspaces = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             final Workspace workspace = Workspace.builder()
-                    .workspaceId(UUID.randomUUID())
-                    .user(User.of(joinedUser))
+                    .user(User.of(super.loginUser))
                     .workspaceName("workspace" + (i + 1))
-                    .workspaceOrder(0)
+                    .workspaceOrder(i)
                     .deletable(true)
                     .createdDate(now)
                     .updateDate(now)
                     .createBy(userId)
                     .updateBy(userId)
                     .build();
-            workspaces.add(workspace);
+            workspaceRepository.save(workspace);
         }
-        workspaceRepository.saveAll(workspaces);
 
         //when
-        final List<Workspace> foundWorkspace = workspaceRepository.findWorkspacesByUserId(joinedUser.getUserId());
+        final List<Workspace> foundWorkspace = workspaceRepository.findWorkspacesByUserId(super.loginUser.getUserId());
         assertThat(foundWorkspace.size()).isEqualTo(5);
 
+    }
+
+
+    @AfterEach
+    void removeAll(){
+        workspaceRepository.deleteAll();
     }
 }
