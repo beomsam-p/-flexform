@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { handleApiException } from 'exception/ApiException';
+import { apiErrorBoundary } from 'exception/ApiBoundary';
 
 import { useEffect, useState } from 'react';
 import { toCamelCase } from 'util/ConvertConvention';
@@ -16,7 +16,7 @@ const useAxios = ({ url, method, body, headers }, { isCamelResponse = true, menu
       setResponse(_data.data);
     } catch (e) {
       setError(true);
-      handleApiException(e);
+      apiErrorBoundary(e);
     } finally {
       setLoading(false);
     }

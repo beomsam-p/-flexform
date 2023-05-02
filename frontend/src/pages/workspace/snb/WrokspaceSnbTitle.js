@@ -1,4 +1,4 @@
-import { PlusOutlined, SearchOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { PlusOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { Button, Tooltip } from 'antd';
 import useAxios from 'hooks/axios/UseAxios';
 import styled from 'styled-components';
@@ -34,7 +34,7 @@ const TitleTextIcon = styled(AppstoreOutlined)`
 const WrokspaceSnbTitle = ({ workspaces, isLoading, isError, refetch: workspacesRefetch }) => {
   const url = '/v1/workspaces';
   const method = 'post';
-  const [_, postExcute] = useAxios({ url, method }, { menual: true });
+  const [, postExcute] = useAxios({ url, method }, { menual: true });
   const onClickAddWorkspace = async () => {
     const newWorksapceItem = {
       workspace_name: 'New Workspace',
@@ -53,9 +53,6 @@ const WrokspaceSnbTitle = ({ workspaces, isLoading, isError, refetch: workspaces
       <TitleBtnGroup>
         <TitleBtnTooltip title="Add Workspace">
           <Button shape="circle" size="small" icon={<PlusOutlined />} onClick={onClickAddWorkspace} />
-        </TitleBtnTooltip>
-        <TitleBtnTooltip title="Sheach Workspace">
-          <Button shape="circle" size="small" icon={<SearchOutlined />} disabled={isLoading | isError} />
         </TitleBtnTooltip>
       </TitleBtnGroup>
     </Container>

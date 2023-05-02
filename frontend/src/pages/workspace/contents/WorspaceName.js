@@ -6,6 +6,7 @@ import { changeCurrentWorkspace } from 'hooks/workspace/CurrentWorkspaceActions'
 import useAxios from 'hooks/axios/UseAxios';
 import { toSnakeCase } from 'util/ConvertConvention';
 import { InputCss } from 'components/CommonCss';
+import { toast } from 'react-toastify';
 
 const WorkspaceNameContainer = styled.div`
   width: 100%;
@@ -80,17 +81,27 @@ const WorspaceName = ({
     if (workspaceNameOrUndefined) setWorkspaceName(workspaceNameOrUndefined);
   }, [workspaceNameOrUndefined]);
 
-  const onBlurWorkspaceNameInput = async e => {
-    if (workspaceName === '' || workspaceName.length > 50) {
-      alert('빈값, 50글자 이상의 workspace name을 지정할 수 없음.');
+  const resetWorkspaceName = () => {
+    workspaceNameInputRef.current.value = workspaces.find(
+      workspace => workspace.workspaceId === currentWorkspace.workspaceId,
+    ).workspaceName;
+  };
 
-      workspaceNameInputRef.current.value = workspaces.find(
-        workspace => workspace.workspaceId === currentWorkspace.workspaceId,
-      ).workspaceName;
-      return;
+  const validWorkspaceName = () => {
+    if (workspaceName === '') {
+      resetWorkspaceName();
+      toast.warn('워크 스페이스 이름을 입력해주세요.');
+      return false;
     }
 
     if (workspaceName === currentWorkspace.workspaceName) {
+      return false;
+    }
+    return true;
+  };
+
+  const onBlurWorkspaceNameInput = async e => {
+    if (!validWorkspaceName()) {
       return;
     }
 
@@ -138,6 +149,7 @@ const WorspaceName = ({
               onChange={onChangeWorkspaceInput}
               onBlur={onBlurWorkspaceNameInput}
               onKeyDown={keyDownWorkspaceInput}
+              maxLength={50}
             ></WorkspaceNameInput>
             <WorkspaceDeleteButton
               icon={<DeleteOutlined />}

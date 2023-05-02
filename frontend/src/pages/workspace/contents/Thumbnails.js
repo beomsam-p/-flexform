@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import DefaultThumbnail from './DefaultThumbnail';
 import Thumbnail from './Thumbnail';
@@ -23,13 +23,6 @@ const Thumbnails = ({ currentWorkspace }) => {
     refetchOnWindowFocus: false,
   });
   const isWait = !enabled || isLoading;
-  // useEffect(() => {
-  //   if (data) setSuerveys(data);
-  // }, [data]);
-
-  // const [surveys, setSuerveys] = useState([]);
-  console.log(surveys);
-
   return (
     <ThumbnailsContainer>
       <DefaultThumbnail workspaceId={workspaceId} surveys={surveys} />

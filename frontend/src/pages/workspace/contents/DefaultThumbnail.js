@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { PlusCircleFilled } from '@ant-design/icons';
 import { BoxContainer } from '../../../components/CommonCss';
-import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import callAxios from 'api/ApiCaller';
 import Modal from 'components/Modal';
 import SurveyForm from './modal/SurveyForm';
 import { toSnakeCase } from 'util/ConvertConvention';
+import { toast } from 'react-toastify';
 
 const SurveyThumbnailAddButton = styled(PlusCircleFilled)`
   font-size: 50px;
@@ -60,6 +61,11 @@ const DefaultThumbnail = ({ workspaceId, surveys }) => {
   };
 
   const onClickAddSurvey = async () => {
+    if (surveyName.trim().length === 0) {
+      toast.warn('설문 이름을 입력해 주세요.');
+      return;
+    }
+
     const labelColor = labelColors[selectedIndex].colorCode;
     const badge = emoji;
     const survey = toSnakeCase({
@@ -67,7 +73,6 @@ const DefaultThumbnail = ({ workspaceId, surveys }) => {
       badge,
       surveyName,
     });
-    console.log(survey);
     await mutate(survey);
   };
 

@@ -3,7 +3,7 @@ import Home from 'pages/home';
 import Layout from 'layout';
 import Workspace from 'pages/workspace';
 import Servey from 'pages/servey';
-import NotFound from 'pages/notFound';
+import NotFound from 'pages/error/notFound';
 
 function App() {
   return (
