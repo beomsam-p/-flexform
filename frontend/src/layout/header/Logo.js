@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import logo from "assets/logo.png";
+import React from 'react';
+import styled from 'styled-components';
+import logo from 'assets/logo.png';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
   height: 54px;
@@ -14,7 +15,9 @@ const LogoImg = styled.img`
 const Logo = () => {
   return (
     <Container>
-      <LogoImg src={logo} alt="logo" />
+      <Link to="/">
+        <LogoImg src={logo} alt="logo" />
+      </Link>
     </Container>
   );
 };
